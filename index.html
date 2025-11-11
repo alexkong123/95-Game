@@ -1259,7 +1259,7 @@
             const challengeResult = document.getElementById('challenge-result');
             if (gameState.mode === 'challenge') {
                 challengeResult.style.display = 'block';
-            const avgTime = gameState.challengeTimes.reduce((a, b) => a + b, 0) / gameState.challengeTimes.length;
+                const avgTime = gameState.challengeTimes.reduce((a, b) => a + b, 0) / gameState.challengeTimes.length;
                     document.getElementById('avg-time').textContent = avgTime.toFixed(1);
                 } else {
                     document.getElementById('avg-time').textContent = "0.0"; 
@@ -1361,6 +1361,7 @@
     </script>
 </body>
 </html>
+
 
 
 
