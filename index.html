@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>95數背數小游戲</title>
+    <title>95數背數小游戲 - 挑戰模式優化版</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -1119,7 +1119,7 @@
                 document.getElementById('game-title').innerHTML = `<i class="fas fa-trophy"></i> 挑戰模式 - ${getDifficultyName()}`;
             } else {
                 const rangeName = practiceRanges[gameState.practiceRange].name;
-                document.getElementById('game-title').innerHTML = `<i class="fas fa-book-open"></i> 練習模式 ;
+                document.getElementById('game-title').innerHTML = `<i class="fas fa-book-open"></i> 練習模式 - ${rangeName}`;
             }
             
             showScreen(screens.game);
@@ -1362,4 +1362,3 @@
     </script>
 </body>
 </html>
-
