@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>95數背數小游戲 - 優化版</title>
+    <title>95數背數小游戲 - 練習模式優化版</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -525,6 +525,10 @@
             .bgm-toggle {
                 right: 55px;
             }
+            
+            .difficulty-option {
+                padding: 12px;
+            }
         }
     </style>
 </head>
@@ -574,26 +578,31 @@
 
             <div>
                 <h1><i class="fas fa-book-open"></i> 練習模式</h1>
-                <div class="subtitle">選擇練習題目數量</div>
+                <div class="subtitle">選擇練習數值範圍</div>
                 
-                <div class="difficulty-option" data-questions="10">
-                    <h3><i class="fas fa-play"></i> 10題挑戰</h3>
-                    <p>適合新手入門練習</p>
+                <div class="difficulty-option" data-range="1">
+                    <h3><i class="fas fa-layer-group"></i> 100至1900內容</h3>
+                    <p>基礎範圍練習（100-1900）</p>
                 </div>
                 
-                <div class="difficulty-option" data-questions="30">
-                    <h3><i class="fas fa-bolt"></i> 30題挑戰</h3>
-                    <p>中等強度練習</p>
+                <div class="difficulty-option" data-range="2">
+                    <h3><i class="fas fa-layer-group"></i> 2100至3900內容</h3>
+                    <p>中等範圍練習（2100-3900）</p>
                 </div>
                 
-                <div class="difficulty-option" data-questions="50">
-                    <h3><i class="fas fa-fire"></i> 50題挑戰</h3>
-                    <p>加強訓練強度</p>
+                <div class="difficulty-option" data-range="3">
+                    <h3><i class="fas fa-layer-group"></i> 4100至6900內容</h3>
+                    <p>進階範圍練習（4100-6900）</p>
                 </div>
                 
-                <div class="difficulty-option" data-questions="99">
-                    <h3><i class="fas fa-crown"></i> 99題王者</h3>
-                    <p>終極心算挑戰</p>
+                <div class="difficulty-option" data-range="4">
+                    <h3><i class="fas fa-layer-group"></i> 7100至8900內容</h3>
+                    <p>高級範圍練習（7100-8900）</p>
+                </div>
+                
+                <div class="difficulty-option" data-range="5">
+                    <h3><i class="fas fa-layer-group"></i> 9100至9900內容</h3>
+                    <p>專家範圍練習（9100-9900）</p>
                 </div>
             </div>
         </div>
@@ -870,6 +879,7 @@
         const gameState = {
             mode: null, // 'practice' or 'challenge'
             difficulty: null, // 'basic', 'advanced', 'expert'
+            practiceRange: null, // 1-5
             totalQuestions: 10,
             currentQuestion: 1,
             score: 0,
@@ -884,6 +894,15 @@
             challengeTimeLeft: 0,
             usedNumbers: new Set(),
             challengeTimes: [] // 记录每题的答题时间
+        };
+
+        // 练习范围定义
+        const practiceRanges = {
+            1: { min: 100, max: 1900, name: "100至1900內容" },
+            2: { min: 2100, max: 3900, name: "2100至3900內容" },
+            3: { min: 4100, max: 6900, name: "4100至6900內容" },
+            4: { min: 7100, max: 8900, name: "7100至8900內容" },
+            5: { min: 9100, max: 9900, name: "9100至9900內容" }
         };
 
         const screens = {
@@ -944,8 +963,8 @@
         document.querySelectorAll('#practice-screen .difficulty-option').forEach(option => {
             option.addEventListener('click', function() {
                 gameState.mode = 'practice';
-                const questionCount = parseInt(this.dataset.questions);
-                startGame(questionCount);
+                gameState.practiceRange = parseInt(this.dataset.range);
+                startGame();
             });
         });
 
@@ -971,16 +990,32 @@
                         break;
                 }
                 
-                startGame(gameState.totalQuestions);
+                startGame();
             });
         });
 
-        // 生成不重复的题目
-        function generateQuestions(count) {
+        // 生成指定范围内的不重复整百数题目
+        function generateQuestions() {
             const questions = [];
-            const allNumbers = Array.from({length: 99}, (_, i) => (i + 1) * 100);
+            let allNumbers = [];
+            
+            if (gameState.mode === 'practice') {
+                // 练习模式：使用指定的数值范围
+                const range = practiceRanges[gameState.practiceRange];
+                // 生成范围内的所有整百数
+                for (let num = range.min; num <= range.max; num += 100) {
+                    allNumbers.push(num);
+                }
+                gameState.totalQuestions = 10; // 练习模式固定10题
+            } else {
+                // 挑战模式：使用默认范围 (100-9900)
+                for (let num = 100; num <= 9900; num += 100) {
+                    allNumbers.push(num);
+                }
+            }
+            
+            // 重置已用数字集
             gameState.usedNumbers.clear();
-            const actualCount = Math.min(count, allNumbers.length);
             
             // 洗牌算法打乱数组
             for (let i = allNumbers.length - 1; i > 0; i--) {
@@ -988,8 +1023,8 @@
                 [allNumbers[i], allNumbers[j]] = [allNumbers[j], allNumbers[i]];
             }
             
-            // 取前actualCount个不重复的数字
-            for (let i = 0; i < actualCount; i++) {
+            // 取前totalQuestions个不重复的数字
+            for (let i = 0; i < gameState.totalQuestions; i++) {
                 const num = allNumbers[i];
                 questions.push(num);
                 gameState.usedNumbers.add(num);
@@ -1059,14 +1094,13 @@
         }
 
         // 开始新游戏
-        function startGame(questionCount) {
+        function startGame() {
             clearInterval(gameState.timerInterval);
             clearInterval(gameState.challengeTimerInterval);
             
-            gameState.totalQuestions = questionCount;
             gameState.currentQuestion = 1;
             gameState.score = 0;
-            gameState.questions = generateQuestions(questionCount);
+            gameState.questions = generateQuestions();
             gameState.userAnswers = [];
             gameState.correctAnswers = [];
             gameState.incorrectList = [];
@@ -1084,7 +1118,8 @@
             if (gameState.mode === 'challenge') {
                 document.getElementById('game-title').innerHTML = `<i class="fas fa-trophy"></i> 挑戰模式 - ${getDifficultyName()}`;
             } else {
-                document.getElementById('game-title').innerHTML = `<i class="fas fa-book-open"></i> 練習模式`;
+                const rangeName = practiceRanges[gameState.practiceRange].name;
+                document.getElementById('game-title').innerHTML = `<i class="fas fa-book-open"></i> 練習模式 - ${rangeName}`;
             }
             
             showScreen(screens.game);
