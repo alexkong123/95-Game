@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>95數背數小游戲 </title>
+    <title>95數背數小游戲 - 練習模式優化版</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -43,7 +43,7 @@
             max-width: 500px;
             height: 95vh;
             max-height: 800px;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.92);
             border-radius: 20px;
             padding: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
@@ -56,12 +56,17 @@
         }
         
         h1 {
-            margin-top: 20px;
-            font-size: 2.2rem;
+            margin-top: 10px;
+            font-size: 2rem;
             color: #2c3e50;
             text-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            font-size: 0.9rem;
+            color: #7f8c8d;
             margin-bottom: 10px;
-            padding: 0 10px;
         }
         
         .screen {
@@ -80,36 +85,24 @@
             background: linear-gradient(45deg, #3498db, #2980b9);
             border: none;
             color: white;
-            padding: 18px 0;
-            margin: 15px;
-            border-radius: 15px;
-            font-size: 1.8rem;
-            font-weight: 700;
+            padding: 12px 20px;
+            margin: 8px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
-            width: 90%;
-            max-width: 400px;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
+            width: 140px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
         }
         
         .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
         }
         
         .btn:active {
-            transform: translateY(1px);
-        }
-        
-        .btn.practice {
-            background: linear-gradient(45deg, #2ecc71, #27ae60);
-        }
-        
-        .btn.challenge {
-            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            transform: translateY(0);
         }
         
         .btn-grid {
@@ -120,15 +113,15 @@
         }
         
         .question-container {
-            background: linear-gradient(135极, #f5f7fa, #e4e7f0);
+            background: linear-gradient(135deg, #f5f7fa, #e4e7f0);
             border-radius: 15px;
             padding: 15px;
-            margin: 15px 10px;
+            margin: 15px 0;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
         }
         
         .question {
-            font-size: 3.2rem;
+            font-size: 3.5rem;
             font-weight: bold;
             margin: 10px 0;
             color: #2c3e50;
@@ -141,18 +134,17 @@
         
         .answer-input {
             width: 90%;
-            padding: 16px;
+            padding: 15px;
             font-size: 1.6rem;
             text-align: center;
             background: #f8f9fa;
             border: 2px solid #e0e0e0;
             border-radius: 15px;
             color: #2c3e50;
-            margin: 10px auto 15px;
+            margin-bottom: 15px;
             transition: all 0.3s;
             outline: none;
             box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
-            display: block;
         }
         
         .answer-input:focus {
@@ -163,13 +155,13 @@
         .keypad {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin: 0 10px 15px;
-            padding: 0 5px;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding: 0 10px;
         }
         
         .key {
-            padding: 16px 0;
+            padding: 14px 5px;
             font-size: 1.6rem;
             background: #2c3e50;
             border: none;
@@ -192,7 +184,7 @@
             display: flex;
             justify-content: center;
             gap: 12px;
-            margin-top: 5px;
+            margin-top: 10px;
             padding: 0 10px;
         }
         
@@ -200,27 +192,27 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin: 10px 10px;
+            margin: 10px 0;
         }
         
         .progress-text {
             font-size: 1rem;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             color: #7f8c8d;
         }
         
         .progress-bar {
-            width: 100%;
-            height: 12px;
+            width: 90%;
+            height: 10px;
             background: #ecf0f1;
-            border-radius: 6px;
+            border-radius: 5px;
             overflow: hidden;
         }
         
         .progress-fill {
             height: 100%;
             background: linear-gradient(to right, #3498db, #2ecc71);
-            border-radius: 6px;
+            border-radius: 5px;
             transition: width 0.5s ease;
         }
         
@@ -228,7 +220,7 @@
             background: #f8f9fa;
             padding: 12px;
             border-radius: 12px;
-            margin: 10px;
+            margin: 10px 0;
             text-align: left;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         }
@@ -245,26 +237,59 @@
             background: linear-gradient(45deg, #2ecc71, #27ae60);
             color: white;
             border: none;
-            padding: 14px 0;
+            padding: 14px 20px;
             font-size: 1rem;
             font-weight: 600;
             border-radius: 50px;
             cursor: pointer;
-            margin: 15px auto;
-            display: block;
-            width: 85%;
-            max-width: 300px;
+            margin-top: 15px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            width: 90%;
+            max-width: 300px;
         }
         
         .timer {
             font-size: 1rem;
-            margin: 8px 0;
+            margin: 6px 0;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 6px;
             color: #7f8c8d;
+        }
+        
+        .feature-badge {
+            display: inline-block;
+            background: #e0f7fa;
+            color: #00796b;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin: 4px;
+            font-size: 0.8rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .instructions {
+            background: #e3f2fd;
+            padding: 12px;
+            border-radius: 15px;
+            margin: 12px 0;
+            text-align: left;
+            font-size: 0.85rem;
+            color: #1a237e;
+        }
+        
+        .instructions h3 {
+            margin-top: 0;
+            color: #0d47a1;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
         .sound-toggle {
@@ -273,32 +298,71 @@
             right: 15px;
             background: rgba(255, 255, 255, 0.9);
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
             z-index: 10;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            font-size: 1.2rem;
         }
         
         .bgm-toggle {
             position: absolute;
             top: 15px;
-            right: 65px;
+            right: 60px;
             background: rgba(255, 255, 255, 0.9);
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
             z-index: 10;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            font-size: 1.2rem;
+        }
+        
+        .wx-tip {
+            background: #e1f5fe;
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-size: 0.8rem;
+            color: #0277bd;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .sound-status {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .sound-status.error {
+            background: #ffebee;
+            color: #c62828;
+        }
+        
+        .pulse {
+            animation: pulse 0.3s ease;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
         
         .back-home-btn {
@@ -307,15 +371,14 @@
             left: 15px;
             background: rgba(255, 255, 255, 0.9);
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
             z-index: 10;
             transition: all 0.3s;
-            font-size: 1.2rem;
         }
         
         .back-home-btn:hover {
@@ -328,27 +391,66 @@
             transform: scale(0.95);
         }
         
+        /* 模式选择卡片 */
+        .mode-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .mode-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            border-color: #3498db;
+        }
+        
+        .mode-card h2 {
+            color: #2c3e50;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .mode-card p {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        .mode-card.practice {
+            background: linear-gradient(to bottom right, #e3f2fd, #bbdefb);
+        }
+        
+        .mode-card.challenge {
+            background: linear-gradient(to bottom right, #ffebee, #ffcdd2);
+        }
+        
         /* 挑战模式计时器 */
         .challenge-timer {
             background: #ff5252;
             color: white;
             border-radius: 50px;
-            padding: 10px 18px;
+            padding: 8px 15px;
             font-weight: bold;
             display: inline-flex;
             align-items: center;
             gap: 8px;
             margin: 10px 0;
             animation: pulse 1s infinite;
-            font-size: 1.1rem;
         }
         
         /* 难度选择 */
         .difficulty-option {
             background: white;
-            border-radius: 15px;
-            padding: 18px;
-            margin: 12px 10px;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 10px 0;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
             cursor: pointer;
             transition: all 0.3s;
@@ -362,104 +464,30 @@
         }
         
         .difficulty-option h3 {
-            margin: 0 0 12px 0;
+            margin: 0 0 10px 0;
             color: #2c3e50;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            font-size: 1.2rem;
         }
         
         .difficulty-option p {
             margin: 0;
             color: #7f8c8d;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
         
         /* 结果徽章 */
         .result-badge {
-            font-size: 3.5rem;
-            margin: 20px 0;
+            font-size: 3rem;
+            margin: 15px 0;
             animation: zoomIn 0.5s ease;
         }
         
         @keyframes zoomIn {
             0% { transform: scale(0.5); opacity: 0; }
             100% { transform: scale(1); opacity: 1; }
-        }
-        
-        .score-container {
-            font-size: 1.4rem;
-            margin: 15px 0;
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 15px;
-            margin: 15px 10px;
-        }
-        
-        /* 首页简洁模式 */
-        .home-container {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            padding: 20px;
-        }
-        
-        .game-title {
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin-bottom: 40px;
-            color: #2c3e50;
-            text-align: center;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .mode-btn-container {
-            width: 100%;
-            max-width: 400px;
-        }
-        
-        .mode-btn {
-            width: 100%;
-            margin: 20px 0;
-            padding: 25px 0;
-            font-size: 2rem;
-            font-weight: bold;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
-            border: none;
-            color: white;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .mode-btn i {
-            margin-right: 15px;
-            font-size: 2.2rem;
-        }
-        
-        .practice-btn {
-            background: linear-gradient(135deg, #2ecc71, #27ae60);
-        }
-        
-        .challenge-btn {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
-        }
-        
-        .mode-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 20px rgba(0,0,0,0.25);
-        }
-        
-        .mode-btn:active {
-            transform: translateY(2px);
         }
         
         @media (max-width: 500px) {
@@ -470,18 +498,36 @@
                 padding: 10px;
             }
             
-            .game-title {
-                font-size: 2rem;
-                margin-bottom: 30px;
-            }
-            
-            .mode-btn {
-                padding: 22px 0;
+            h1 {
                 font-size: 1.8rem;
             }
             
-            .mode-btn i {
-                font-size: 2rem;
+            .question {
+                font-size: 3rem;
+            }
+            
+            .btn {
+                width: 120px;
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .key {
+                padding: 12px 5px;
+                font-size: 1.4rem;
+            }
+            
+            .answer-input {
+                padding: 12px;
+                font-size: 1.4rem;
+            }
+            
+            .bgm-toggle {
+                right: 55px;
+            }
+            
+            .difficulty-option {
+                padding: 12px;
             }
         }
     </style>
@@ -496,18 +542,31 @@
     </div>
     
     <div class="container">
-        <!-- 简洁首页 -->
+        <!-- 首页 -->
         <div id="home-screen" class="screen active">
-            <div class="home-container">
-                <div class="game-title">95數背數小游戲</div>
-                <div class="mode-btn-container">
-                    <button class="mode-btn practice-btn" id="practice-mode">
-                        <i class="fas fa-book-open"></i> 練習模式
-                    </button>
-                    <button class="mode-btn challenge-btn" id="challenge-mode">
-                        <i class="fas fa-trophy"></i> 挑戰模式
-                    </button>
+            <div>
+                <h1>95數背數小游戲</h1>
+                <div class="subtitle">提升心算能力 · 訓練快速反應</div>
+                
+                <div class="instructions">
+                    <h3><i class="fas fa-info-circle"></i> 遊戲說明</h3>
+                    <p>快速計算整百數的95數結果，例如：100 → 95，200 → 190</p>
+                    <p>選擇練習模式可以自由練習，挑戰模式則有時間限制</p>
                 </div>
+                
+                <div class="mode-card practice" id="practice-mode">
+                    <h2><i class="fas fa-book-open"></i> 練習模式</h2>
+                    <p>無時間壓力，自由練習心算能力</p>
+                </div>
+                
+                <div class="mode-card challenge" id="challenge-mode">
+                    <h2><i class="fas fa-trophy"></i> 挑戰模式</h2>
+                    <p>限時挑戰，測試你的反應速度</p>
+                </div>
+            </div>
+            
+            <div class="wx-tip">
+                <i class="fas fa-mobile-alt"></i> 提示：此應用由PID制作（Alexkong)
             </div>
         </div>
 
@@ -550,7 +609,7 @@
 
         <!-- 挑战模式选择页 -->
         <div id="challenge-screen" class="screen">
-            <div class极="back-home-btn" id="back-home-challenge">
+            <div class="back-home-btn" id="back-home-challenge">
                 <i class="fas fa-arrow-left"></i>
             </div>
 
@@ -560,17 +619,17 @@
                 
                 <div class="difficulty-option" data-difficulty="basic">
                     <h3><i class="fas fa-star"></i> 基礎挑戰</h3>
-                    <p>10秒/題 · 30題 · 適合新手</p>
+                    <p>15秒/題 · 10題 · 適合新手</p>
                 </div>
                 
                 <div class="difficulty-option" data-difficulty="advanced">
                     <h3><i class="fas fa-star-half-alt"></i> 進階挑戰</h3>
-                    <p>7秒/題 · 50題 · 中等難度</p>
+                    <p>10秒/題 · 20題 · 中等難度</p>
                 </div>
                 
                 <div class="difficulty-option" data-difficulty="expert">
                     <h3><i class="fas fa-star"></i> 專家挑戰</h3>
-                    <p>5秒/題 · 99題 · 高手專屬</p>
+                    <p>7秒/題 · 30題 · 高手專屬</p>
                 </div>
             </div>
         </div>
@@ -642,9 +701,12 @@
                     <i class="fas fa-trophy" style="color: #FFD700;"></i>
                 </div>
                 
-                <div class="score-container">
-                    <div class="score">得分：<span id="score" style="font-size: 1.8rem; color:#3498db;">0</span> / <span id="total" style="font-size: 1.8rem;">10</span></div>
-                    <div class="accuracy">正確率：<span id="accuracy" style="font-size: 1.6rem; color:#e74c3c;">0</span>%</div>
+                <div class="score" style="font-size: 1.4rem; margin: 12px 0;">
+                    得分：<span id="score" style="font-size: 1.8rem; color:#3498db;">0</span> / <span id="total" style="font-size: 1.8rem;">10</span>
+                </div>
+                
+                <div class="accuracy" style="font-size: 1.2rem; margin-bottom: 15px;">
+                    正確率：<span id="accuracy" style="font-size: 1.6rem; color:#e74c3c;">0</span>%
                 </div>
                 
                 <div id="challenge-result" style="display: none;">
@@ -657,7 +719,7 @@
                     <i class="fas fa-stopwatch"></i> 總用時: <span id="total-time">00:00</span>
                 </div>
                 
-                <div style="margin: 15px 10px;">
+                <div style="margin: 15px 0;">
                     <h3><i class="fas fa-exclamation-triangle"></i> 錯題記錄：</h3>
                     <div id="incorrect-answers" style="max-height: 200px; overflow-y: auto;"></div>
                 </div>
@@ -909,22 +971,22 @@
         // 挑战模式选择
         document.querySelectorAll('#challenge-screen .difficulty-option').forEach(option => {
             option.addEventListener('click', function() {
-                gameState.mode = '极hallenge';
+                gameState.mode = 'challenge';
                 gameState.difficulty = this.dataset.difficulty;
                 
                 // 根据难度设置题目数量和时间限制
                 switch(gameState.difficulty) {
                     case 'basic':
-                        gameState.totalQuestions = 30; // 30题
-                        gameState.challengeTimeLeft = 10; // 10秒/题
+                        gameState.totalQuestions = 10;
+                        gameState.challengeTimeLeft = 15;
                         break;
                     case 'advanced':
-                        gameState.totalQuestions = 50; // 50题
-                        gameState.challengeTimeLeft = 7; // 7秒/题
+                        gameState.totalQuestions = 20;
+                        gameState.challengeTimeLeft = 10;
                         break;
                     case 'expert':
-                        gameState.totalQuestions = 99; // 99题
-                        gameState.challengeTimeLeft = 5; // 5秒/题
+                        gameState.totalQuestions = 30;
+                        gameState.challengeTimeLeft = 7;
                         break;
                 }
                 
@@ -1150,11 +1212,10 @@
             
             // 如果是挑战模式，重置倒计时
             if (gameState.mode === 'challenge') {
-                // 根据当前难度设置倒计时时间
                 switch(gameState.difficulty) {
-                    case 'basic': gameState.challengeTimeLeft = 10; break;
-                    case 'advanced': gameState.challengeTimeLeft = 7; break;
-                    case 'expert': gameState.challengeTimeLeft = 5; break;
+                    case 'basic': gameState.challengeTimeLeft = 15; break;
+                    case 'advanced': gameState.challengeTimeLeft = 10; break;
+                    case 'expert': gameState.challengeTimeLeft = 7; break;
                 }
                 startChallengeTimer();
             }
@@ -1292,6 +1353,11 @@
 
         // 分享按钮
         document.getElementById('share-btn').addEventListener('click', shareToWechat);
+
+        // 微信环境特殊处理
+        if (navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1) {
+            document.querySelector('.wx-tip').style.display = 'flex';
+        }
     </script>
 </body>
 </html>
