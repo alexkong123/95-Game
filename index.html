@@ -1154,7 +1154,17 @@
         function nextQuestion() {
             clearInterval(gameState.challengeTimerInterval);
             
-            const userAnswer = document.getElementById('answer-input').value;
+            // 关键修复：根据当前难度重置计时器值  
+            switch(gameState.difficulty) {
+            case 'basic':
+                gameState.challengeTimeLeft = 10;
+                break;
+            case 'advanced':
+                gameState.challengeTimeLeft = 7;
+                break;
+            case 'expert':
+                gameState.challengeTimeLeft = 5;
+                break;
             
             // 记录本题用时（挑战模式）
             if (gameState.mode === 'challenge') {
@@ -1213,9 +1223,9 @@
             // 如果是挑战模式，重置倒计时
             if (gameState.mode === 'challenge') {
                 switch(gameState.difficulty) {
-                    case 'basic': gameState.challengeTimeLeft = 15; break;
-                    case 'advanced': gameState.challengeTimeLeft = 10; break;
-                    case 'expert': gameState.challengeTimeLeft = 7; break;
+                    case 'basic': gameState.challengeTimeLeft = 10; break;
+                    case 'advanced': gameState.challengeTimeLeft = 7; break;
+                    case 'expert': gameState.challengeTimeLeft = 5; break;
                 }
                 startChallengeTimer();
             }
@@ -1361,6 +1371,7 @@
     </script>
 </body>
 </html>
+
 
 
 
