@@ -625,7 +625,7 @@
                 
                 <div class="difficulty-option" data-difficulty="advanced">
                     <h3><i class="fas fa-star-half-alt"></i> 進階挑戰</h3>
-                    <p>7秒/題 · 50題 · 中等難度</p>
+                    <p>17秒/題 · 50題 · 中等難度</p>
                 </div>
                 
                 <div class="difficulty-option" data-difficulty="expert">
@@ -969,32 +969,31 @@
             });
         });
 
-       // 挑战模式选择逻辑
-       document.querySelectorAll('#challenge-screen .difficulty-option').forEach(option => {
-        option.addEventListener('click', function() {
-        gameState.mode = 'challenge';
-        gameState.difficulty = this.dataset.difficulty;
-        
-        // 根据难度设置题目数量和时间限制
-        switch(gameState.difficulty) {
-            case 'basic':
-                gameState.totalQuestions = 30; // 30题
-                gameState.challengeTimeLeft = 10; // 10秒/题
-                break;
-            case 'advanced':
-                gameState.totalQuestions = 50; // 50题
-                gameState.challengeTimeLeft = 7; // 7秒/题
-                break;
-            case 'expert':
-                gameState.totalQuestions = 99; // 99题
-                gameState.challengeTimeLeft = 5; // 5秒/题
-                break;
-            }
-        
-            startGame();
+        // 挑战模式选择
+        document.querySelectorAll('#challenge-screen .difficulty-option').forEach(option => {
+            option.addEventListener('click', function() {
+                gameState.mode = 'challenge';
+                gameState.difficulty = this.dataset.difficulty;
+                
+                // 根据难度设置题目数量和时间限制
+                switch(gameState.difficulty) {
+                    case 'basic':
+                        gameState.totalQuestions = 30;
+                        gameState.challengeTimeLeft = 10;
+                        break;
+                    case 'advanced':
+                        gameState.totalQuestions = 50;
+                        gameState.challengeTimeLeft = 7;
+                        break;
+                    case 'expert':
+                        gameState.totalQuestions = 99;
+                        gameState.challengeTimeLeft = 5;
+                        break;
+                }
+                
+                startGame();
             });
         });
-
 
         // 生成指定范围内的不重复整百数题目
         function generateQuestions() {
@@ -1154,17 +1153,7 @@
         function nextQuestion() {
             clearInterval(gameState.challengeTimerInterval);
             
-            // 关键修复：根据当前难度重置计时器值  
-            switch(gameState.difficulty) {
-            case 'basic':
-                gameState.challengeTimeLeft = 10;
-                break;
-            case 'advanced':
-                gameState.challengeTimeLeft = 7;
-                break;
-            case 'expert':
-                gameState.challengeTimeLeft = 5;
-                break;
+            const userAnswer = document.getElementById('answer-input').value;
             
             // 记录本题用时（挑战模式）
             if (gameState.mode === 'challenge') {
@@ -1172,6 +1161,7 @@
                 const questionTime = Math.floor((new Date() - questionStartTime) / 1000);
                 gameState.challengeTimes.push(questionTime);
             }
+            
             if (userAnswer) {
                 playSound('key');
                 
@@ -1223,9 +1213,9 @@
             // 如果是挑战模式，重置倒计时
             if (gameState.mode === 'challenge') {
                 switch(gameState.difficulty) {
-                    case 'basic': gameState.challengeTimeLeft = 10; break;
-                    case 'advanced': gameState.challengeTimeLeft = 7; break;
-                    case 'expert': gameState.challengeTimeLeft = 5; break;
+                    case 'basic': gameState.challengeTimeLeft = 15; break;
+                    case 'advanced': gameState.challengeTimeLeft = 10; break;
+                    case 'expert': gameState.challengeTimeLeft = 7; break;
                 }
                 startChallengeTimer();
             }
@@ -1371,9 +1361,6 @@
     </script>
 </body>
 </html>
-
-
-
 
 
 
