@@ -582,27 +582,22 @@
                 
                 <div class="difficulty-option" data-range="1">
                     <h3><i class="fas fa-layer-group"></i> 100至1900內容</h3>
-                    <p>基礎範圍練習（100-1900）</p>
                 </div>
                 
                 <div class="difficulty-option" data-range="2">
                     <h3><i class="fas fa-layer-group"></i> 2100至3900內容</h3>
-                    <p>中等範圍練習（2100-3900）</p>
                 </div>
                 
                 <div class="difficulty-option" data-range="3">
                     <h3><i class="fas fa-layer-group"></i> 4100至6900內容</h3>
-                    <p>進階範圍練習（4100-6900）</p>
                 </div>
                 
                 <div class="difficulty-option" data-range="4">
                     <h3><i class="fas fa-layer-group"></i> 7100至8900內容</h3>
-                    <p>高級範圍練習（7100-8900）</p>
                 </div>
                 
                 <div class="difficulty-option" data-range="5">
                     <h3><i class="fas fa-layer-group"></i> 9100至9900內容</h3>
-                    <p>專家範圍練習（9100-9900）</p>
                 </div>
             </div>
         </div>
@@ -619,17 +614,17 @@
                 
                 <div class="difficulty-option" data-difficulty="basic">
                     <h3><i class="fas fa-star"></i> 基礎挑戰</h3>
-                    <p>15秒/題 · 10題 · 適合新手</p>
+                    <p>10秒/題 · 30題 · 適合新手</p>
                 </div>
                 
                 <div class="difficulty-option" data-difficulty="advanced">
                     <h3><i class="fas fa-star-half-alt"></i> 進階挑戰</h3>
-                    <p>10秒/題 · 20題 · 中等難度</p>
+                    <p>7秒/題 · 50題 · 中等難度</p>
                 </div>
                 
                 <div class="difficulty-option" data-difficulty="expert">
                     <h3><i class="fas fa-star"></i> 專家挑戰</h3>
-                    <p>7秒/題 · 30題 · 高手專屬</p>
+                    <p>5秒/題 · 99題 · 高手專屬</p>
                 </div>
             </div>
         </div>
@@ -977,16 +972,16 @@
                 // 根据难度设置题目数量和时间限制
                 switch(gameState.difficulty) {
                     case 'basic':
-                        gameState.totalQuestions = 10;
-                        gameState.challengeTimeLeft = 15;
-                        break;
-                    case 'advanced':
-                        gameState.totalQuestions = 20;
+                        gameState.totalQuestions = 30;
                         gameState.challengeTimeLeft = 10;
                         break;
-                    case 'expert':
-                        gameState.totalQuestions = 30;
+                    case 'advanced':
+                        gameState.totalQuestions = 50;
                         gameState.challengeTimeLeft = 7;
+                        break;
+                    case 'expert':
+                        gameState.totalQuestions = 99;
+                        gameState.challengeTimeLeft = 5;
                         break;
                 }
                 
@@ -1213,9 +1208,9 @@
             // 如果是挑战模式，重置倒计时
             if (gameState.mode === 'challenge') {
                 switch(gameState.difficulty) {
-                    case 'basic': gameState.challengeTimeLeft = 15; break;
-                    case 'advanced': gameState.challengeTimeLeft = 10; break;
-                    case 'expert': gameState.challengeTimeLeft = 7; break;
+                    case 'basic': gameState.challengeTimeLeft = 10; break;
+                    case 'advanced': gameState.challengeTimeLeft = 7; break;
+                    case 'expert': gameState.challengeTimeLeft = 5; break;
                 }
                 startChallengeTimer();
             }
@@ -1361,3 +1356,4 @@
     </script>
 </body>
 </html>
+
