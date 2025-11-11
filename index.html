@@ -1260,12 +1260,12 @@
             if (gameState.mode === 'challenge') {
                 challengeResult.style.display = 'block';
                 if (gameState.challengeTimes && gameState.challengeTimes.length > 0) {
-                const avgTime = gameState.challengeTimes.reduce((a, b) => a + b, 0) / gameState.challengeTimes.length;
-                document.getElementById('avg-time').textContent = avgTime.toFixed(1);
+                    const avgTime = gameState.challengeTimes.reduce((a, b) => a + b, 0) / gameState.challengeTimes.length;
+                    document.getElementById('avg-time').textContent = avgTime.toFixed(1);
+                } else {
+                    document.getElementById('avg-time').textContent = "0.0"; 
+                }
             } else {
-                  document.getElementById('avg-time').textContent = "0.0"; 
-            }
-        } else {
                 challengeResult.style.display = 'none';
             }
             
@@ -1362,6 +1362,7 @@
     </script>
 </body>
 </html>
+
 
 
 
