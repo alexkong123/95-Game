@@ -1119,8 +1119,7 @@
             if (gameState.mode === 'challenge') {
                 document.getElementById('game-title').innerHTML = `<i class="fas fa-trophy"></i> 挑戰模式 - ${getDifficultyName()}`;
             } else {
-                const rangeName = practiceRanges[gameState.practiceRange].name;
-                document.getElementById('game-title').innerHTML = `<i class="fas fa-book-open"></i> 練習模式 - ${rangeName}`;
+                document.getElementById('game-title').textContent = "練習模式";
             }
             
             showScreen(screens.game);
@@ -1362,5 +1361,6 @@
     </script>
 </body>
 </html>
+
 
 
