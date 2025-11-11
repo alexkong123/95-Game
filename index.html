@@ -484,7 +484,7 @@
                 </button>
             </div>
             
-            <div class="practice-range-grid" id="practice-range-grid" style="display: none;">
+            <div class="practice-range-grid" id="practice-range-grid">
                 <button class="btn practice-range-btn" data-range="1">100-1900練習</button>
                 <button class="btn practice-range-btn" data-range="2">2100-3900練習</button>
                 <button class="btn practice-range-btn" data-range="3">4100-6900練習</button>
@@ -788,39 +788,32 @@
             screen.classList.add('active');
         }
 
-         // 返回首页功能
+        // 返回首页功能
         function goToHomeScreen() {
-            // 停止游戏计时器
             clearInterval(gameState.timerInterval);
-            // 播放按钮音效
             playSound('button');
-            // 切换到首页
             showScreen(screens.home);
         }
         
-        // 绑定返回首页按钮事件
+        // 绑定返回首页按钮
         document.getElementById('back-home-game').addEventListener('click', goToHomeScreen);
         document.getElementById('back-home-result').addEventListener('click', goToHomeScreen);
 
-        // 生成不重复的题目 (100-9900的整百数)
+        // 生成不重复的题目
         function generateQuestions(count) {
             const questions = [];
             const allNumbers = Array.from({length: 99}, (_, i) => (i + 1) * 100);
             
-            // 如果请求数量超过可用数字，则使用全部数字
             const actualCount = Math.min(count, allNumbers.length);
             
-            // 洗牌算法打乱数组
             for (let i = allNumbers.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [allNumbers[i], allNumbers[j]] = [allNumbers[j], allNumbers[i]];
             }
             
-            // 取前actualCount个不重复的数字
             for (let i = 0; i < actualCount; i++) {
-                const num = allNumbers[i];
-                questions.push(num);
-                gameState.usedNumbers.add(num);
+                questions.push(allNumbers[i]);
+                gameState.usedNumbers.add(allNumbers[i]);
             }
             
             return questions;
@@ -867,17 +860,15 @@
             gameState.correctAnswers = [];
             gameState.incorrectList = [];
             gameState.elapsedTime = 0;
-            gameState.usedNumbers.clear(); // 重置已用数字集
+            gameState.usedNumbers.clear();
             
             if (gameState.isPracticeMode && range) {
-                // 生成练习模式的题目
                 gameState.questions = generatePracticeQuestions(range);
             } else {
-                // 挑战模式
-                gameState.questions = generateQuestions(99); // 99题
+                gameState.questions = generateQuestions(99);
             }
             
-            gameState.totalQuestions = gameState.questions.length; // 总题数
+            gameState.totalQuestions = gameState.questions.length;
 
             document.getElementById('current-question').textContent = '1';
             document.getElementById('total-questions').textContent = gameState.totalQuestions;
@@ -898,34 +889,18 @@
             let start, end;
             
             switch(range) {
-                case 1: // 100-1900
-                    start = 100;
-                    end = 1900;
-                    break;
-                case 2: // 2100-3900
-                    start = 2100;
-                    end = 3900;
-                    break;
-                case 3: // 4100-6900
-                    start = 4100;
-                    end = 6900;
-                    break;
-                case 4: // 7100-9900
-                    start = 7100;
-                    end = 9900;
-                    break;
-                default:
-                    start = 100;
-                    end = 1900;
+                case 1: start = 100; end = 1900; break;
+                case 2: start = 2100; end = 3900; break;
+                case 3: start = 4100; end = 6900; break;
+                case 4: start = 7100; end = 9900; break;
+                default: start = 100; end = 1900;
             }
             
-            // 生成从start到end的整百数
             const numbers = [];
             for (let num = start; num <= end; num += 100) {
                 numbers.push(num);
             }
             
-            // 洗牌算法打乱顺序
             for (let i = numbers.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
@@ -934,7 +909,31 @@
             return numbers;
         }
 
+        // 绑定练习模式按钮
+        document.getElementById('practice-mode-btn').addEventListener('click', function() {
+            document.getElementById('practice-range-grid').style.display = 'flex';
+            playSound('button');
+        });
+
+        // 绑定挑战模式按钮
+        document.getElementById('challenge-mode-btn').addEventListener('click', function() {
+            document.getElementById('practice-range-grid').style.display = 'none';
+            playSound('button');
+            startGame('challenge');
+        });
+
+        // 绑定练习范围按钮
+        document.querySelectorAll('.practice-range-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const range = parseInt(this.dataset.range);
+                playSound('button');
+                startGame('practice', range);
+            });
+        });
+
         // 提交答案
+        document.getElementById('submit-btn').addEventListener('click', submitAnswer);
+        
         function submitAnswer() {
             const userAnswer = document.getElementById('answer-input').value;
             if (!userAnswer) return;
@@ -947,9 +946,7 @@
             
             if (parseInt(userAnswer) === correctAnswer) {
                 gameState.score++;
-                // 播放正确音效
                 playSound('correct');
-                // 添加视觉反馈
                 document.getElementById('answer-input').classList.add('pulse');
                 document.getElementById('answer-input').style.backgroundColor = '#e8f5e9';
                 setTimeout(() => {
@@ -961,9 +958,7 @@
                     userAnswer: parseInt(userAnswer),
                     correctAnswer: correctAnswer
                 });
-                // 播放错误音效
                 playSound('wrong');
-                // 添加视觉反馈
                 document.getElementById('answer-input').classList.add('pulse');
                 document.getElementById('answer-input').style.backgroundColor = '#ffebee';
                 setTimeout(() => {
@@ -971,12 +966,13 @@
                 }, 300);
             }
             
-            // 禁用提交按钮，启用下一题按钮
             document.getElementById('submit-btn').disabled = true;
             document.getElementById('next-btn').disabled = false;
         }
 
         // 下一题
+        document.getElementById('next-btn').addEventListener('click', nextQuestion);
+        
         function nextQuestion() {
             playSound('button');
             
@@ -992,7 +988,6 @@
             document.getElementById('answer-input').value = '';
             document.getElementById('answer-input').style.backgroundColor = '';
             
-            // 启用提交按钮，禁用下一题按钮
             document.getElementById('submit-btn').disabled = false;
             document.getElementById('next-btn').disabled = true;
             
@@ -1003,8 +998,6 @@
         function endGame() {
             clearInterval(gameState.timerInterval);
             showResults();
-            
-            // 播放结束音效
             playSound('end');
         }
 
@@ -1039,53 +1032,16 @@
                 });
             }
             
-            // 显示模式信息
-            if (gameState.isPracticeMode) {
-                const rangeText = document.querySelector(`.practice-range-btn[data-range="${gameState.practiceRange}"]`).textContent;
-                const infoDiv = document.createElement('div');
-                infoDiv.className = 'result-item';
-                infoDiv.innerHTML = `<strong>練習範圍:</strong> ${rangeText}`;
-                infoDiv.style.marginTop = '10px';
-                infoDiv.style.textAlign = 'center';
-                incorrectContainer.appendChild(infoDiv);
-            }
-            
             showScreen(screens.result);
         }
 
         // 分享功能
+        document.getElementById('share-btn').addEventListener('click', shareToWechat);
+        
         function shareToWechat() {
             playSound('button');
             alert('请使用微信右上角的分享功能分享此页面！');
         }
-
-        // 事件监听器
-        document.querySelector('.practice-range-grid').addEventListener('click', function(e) {
-            if (e.target.classList.contains('practice-range-btn')) {
-                const range = e.target.dataset.range;
-                playSound('button');
-                startGame('practice', parseInt(range));
-            }
-        });
-
-        document.getElementById('practice-mode-btn').addEventListener('click', function() {
-            document.getElementById('practice-range-grid').style.display = 'flex';
-            playSound('button');
-        });
-
-        document.getElementById('challenge-mode-btn').addEventListener('click', function() {
-            document.getElementById('practice-range-grid').style.display = 'none';
-            playSound('button');
-            startGame('challenge');
-        });
-
-        document.getElementById('submit-btn').addEventListener('click', submitAnswer);
-        document.getElementById('next-btn').addEventListener('click', nextQuestion);
-        document.getElementById('restart-btn').addEventListener('click', () => {
-            playSound('button');
-            showScreen(screens.home);
-        });
-        document.getElementById('share-btn').addEventListener('click', shareToWechat);
 
         // 数字键盘处理
         document.querySelectorAll('.key:not(#backspace):not(#clear)').forEach(key => {
@@ -1134,4 +1090,3 @@
     </script>
 </body>
 </html>
-
