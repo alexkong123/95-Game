@@ -550,14 +550,8 @@
                 
                 <div class="instructions">
                     <h3><i class="fas fa-info-circle"></i> 遊戲說明</h3>
-                    <p>1. 隨機出现100-9900的整百位數</p>
-                    <p>2. 快速輸入該數的的95數结果</p>
-                    <p>3. 使用下方數字鍵盤輸入答案</p>
-                    <p>4. 輸入答案後需先按確定,才可按下一題</p>
-                    <p>5. 完成所有題目後可查看成績和錯題</p>
-                    <p>6. 選擇練習模式可以自由練習，挑戰模式則有時間限制</p>
-                    <p>示例：100 → 95，200 → 190，1000 → 950，3000 → 2850</p>
-                    
+                    <p>快速計算整百數的95數結果，例如：100 → 95，200 → 190</p>
+                    <p>選擇練習模式可以自由練習，挑戰模式則有時間限制</p>
                 </div>
                 
                 <div class="mode-card practice" id="practice-mode">
@@ -588,22 +582,27 @@
                 
                 <div class="difficulty-option" data-range="1">
                     <h3><i class="fas fa-layer-group"></i> 100至1900內容</h3>
+                    <p>基礎範圍練習（100-1900）</p>
                 </div>
                 
                 <div class="difficulty-option" data-range="2">
                     <h3><i class="fas fa-layer-group"></i> 2100至3900內容</h3>
+                    <p>中等範圍練習（2100-3900）</p>
                 </div>
                 
                 <div class="difficulty-option" data-range="3">
                     <h3><i class="fas fa-layer-group"></i> 4100至6900內容</h3>
+                    <p>進階範圍練習（4100-6900）</p>
                 </div>
                 
                 <div class="difficulty-option" data-range="4">
                     <h3><i class="fas fa-layer-group"></i> 7100至8900內容</h3>
+                    <p>高級範圍練習（7100-8900）</p>
                 </div>
                 
                 <div class="difficulty-option" data-range="5">
                     <h3><i class="fas fa-layer-group"></i> 9100至9900內容</h3>
+                    <p>專家範圍練習（9100-9900）</p>
                 </div>
             </div>
         </div>
@@ -620,17 +619,17 @@
                 
                 <div class="difficulty-option" data-difficulty="basic">
                     <h3><i class="fas fa-star"></i> 基礎挑戰</h3>
-                    <p>10秒/題 · 30題 · 適合新手</p>
+                    <p>15秒/題 · 10題 · 適合新手</p>
                 </div>
                 
                 <div class="difficulty-option" data-difficulty="advanced">
                     <h3><i class="fas fa-star-half-alt"></i> 進階挑戰</h3>
-                    <p>17秒/題 · 50題 · 中等難度</p>
+                    <p>10秒/題 · 20題 · 中等難度</p>
                 </div>
                 
                 <div class="difficulty-option" data-difficulty="expert">
                     <h3><i class="fas fa-star"></i> 專家挑戰</h3>
-                    <p>5秒/題 · 99題 · 高手專屬</p>
+                    <p>7秒/題 · 30題 · 高手專屬</p>
                 </div>
             </div>
         </div>
@@ -978,16 +977,16 @@
                 // 根据难度设置题目数量和时间限制
                 switch(gameState.difficulty) {
                     case 'basic':
-                        gameState.totalQuestions = 30;
-                        gameState.challengeTimeLeft = 10;
+                        gameState.totalQuestions = 10;
+                        gameState.challengeTimeLeft = 15;
                         break;
                     case 'advanced':
-                        gameState.totalQuestions = 50;
-                        gameState.challengeTimeLeft = 7;
+                        gameState.totalQuestions = 20;
+                        gameState.challengeTimeLeft = 10;
                         break;
                     case 'expert':
-                        gameState.totalQuestions = 99;
-                        gameState.challengeTimeLeft = 5;
+                        gameState.totalQuestions = 30;
+                        gameState.challengeTimeLeft = 7;
                         break;
                 }
                 
@@ -1119,7 +1118,8 @@
             if (gameState.mode === 'challenge') {
                 document.getElementById('game-title').innerHTML = `<i class="fas fa-trophy"></i> 挑戰模式 - ${getDifficultyName()}`;
             } else {
-                document.getElementById('game-title').textContent = "練習模式";
+                const rangeName = practiceRanges[gameState.practiceRange].name;
+                document.getElementById('game-title').innerHTML = `<i class="fas fa-book-open"></i> 練習模式 - ${rangeName}`;
             }
             
             showScreen(screens.game);
@@ -1361,7 +1361,3 @@
     </script>
 </body>
 </html>
-
-
-
-
