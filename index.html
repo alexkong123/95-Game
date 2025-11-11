@@ -550,11 +550,7 @@
                 
                 <div class="instructions">
                     <h3><i class="fas fa-info-circle"></i> 遊戲說明</h3>
-                    <p>1. 隨機出现100-9900的整百位數</p>
-                    <p>2. 快速輸入該數的的95數结果</p>
-                    <p>3. 使用下方數字鍵盤輸入答案</p>
-                    <p>4. 完成所有題目後可查看成績和錯題</p>
-                    <p>5. 示例：100 → 95，200 → 190</p>
+                    <p>快速計算整百數的95數結果，例如：100 → 95，200 → 190</p>
                     <p>選擇練習模式可以自由練習，挑戰模式則有時間限制</p>
                 </div>
                 
@@ -1037,7 +1033,7 @@
             return Math.floor(number * 0.95);
         }
 
-                 开始计时器
+        // 开始计时器
         function startTimer() {
             gameState.startTime = new Date();
             gameState.timerInterval = setInterval(() => {
@@ -1117,8 +1113,10 @@
             if (gameState.mode === 'challenge') {
                 document.getElementById('game-title').innerHTML = `<i class="fas fa-trophy"></i> 挑戰模式 - ${getDifficultyName()}`;
             } else {
-                document.getElementById('game-title').textContent = "練習模式";
+                const rangeName = practiceRanges[gameState.practiceRange].name;
+                document.getElementById('game-title').innerHTML = `<i class="fas fa-book-open"></i> 練習模式 - ${rangeName}`;
             }
+            
             showScreen(screens.game);
             startTimer();
             updateProgressBar();
@@ -1263,7 +1261,7 @@
                 document.getElementById('avg-time').textContent = avgTime.toFixed(1);
             } else {
                 challengeResult.style.display = 'none';
-            }  
+            }
             
             const incorrectContainer = document.getElementById('incorrect-answers');
             incorrectContainer.innerHTML = '';
@@ -1358,10 +1356,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
