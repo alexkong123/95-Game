@@ -1152,76 +1152,101 @@
 
         // 下一题（直接提交答案）
         function nextQuestion() {
-            clearInterval(gameState.challengeTimerInterval);
-            
-            const userAnswer = document.getElementById('answer-input').value;
-            
-            // 记录本题用时（挑战模式）
-            if (gameState.mode === 'challenge') {
-                const questionStartTime = gameState.startTime + (gameState.elapsedTime * 1000);
-                const questionTime = Math.floor((new Date() - questionStartTime) / 1000);
-                gameState.challengeTimes.push(questionTime);
-            }
-            
-            if (userAnswer) {
-                playSound('key');
-                
-                const currentNum = gameState.questions[gameState.currentQuestion - 1];
-                const correctAnswer = calculate95Percent(currentNum);
-                
-                gameState.userAnswers.push(parseInt(userAnswer));
-                gameState.correctAnswers.push(correctAnswer);
-                
-                if (parseInt(userAnswer) === correctAnswer) {
-                    gameState.score++;
-                    playSound('correct');
-                    document.getElementById('answer-input').classList.add('pulse');
-                    document.getElementById('answer-input').style.backgroundColor = '#e8f5e9';
-                    setTimeout(() => {
-                        document.getElementById('answer-input').classList.remove('pulse');
-                    }, 300);
-                } else {
-                    gameState.incorrectList.push({
-                        question: currentNum,
-                        userAnswer: parseInt(userAnswer),
-                        correctAnswer: correctAnswer
-                    });
-                    playSound('wrong');
-                    document.getElementById('answer-input').classList.add('pulse');
-                    document.getElementById('answer-input').style.backgroundColor = '#ffebee';
-                    setTimeout(() => {
-                        document.getElementById('answer-input').classList.remove('pulse');
-                    }, 300);
-                }
-            }
-            
-            // 进入下一题
-            gameState.currentQuestion++;
-            
-            if (gameState.currentQuestion > gameState.questions.length) {
-                endGame();
-                return;
-            }
-            
-            document.getElementById('current-question').textContent = gameState.currentQuestion;
-            document.getElementById('question').textContent = gameState.questions[gameState.currentQuestion - 1];
-            document.getElementById('answer-input').value = '';
-            document.getElementById('answer-input').style.backgroundColor = '';
-            
-            updateProgressBar();
-            document.getElementById('next-btn').disabled = true;
-            
-            // 如果是挑战模式，重置倒计时
-            if (gameState.mode === 'challenge') {
-                switch(gameState.difficulty) {
-                    case 'basic': gameState.challengeTimeLeft = 15; break;
-                    case 'advanced': gameState.challengeTimeLeft = 10; break;
-                    case 'expert': gameState.challengeTimeLeft = 7; break;
-                }
-                startChallengeTimer();
-            }
+    clearInterval(gameState.challengeTimerInterval);
+    
+    // 关键修复：根据当前难度重置计时器值
+    switch(gameState.difficulty) {
+        case 'basic':
+            gameState.challengeTimeLeft = 10;
+            break;
+        case 'advanced':
+            gameState.challengeTimeLeft = 7;
+            break;
+        case 'expert':
+            gameState.challengeTimeLeft = 5;
+            break;
+    }
+    
+    // 记录本题用时（挑战模式）
+    if (gameState.mode === 'challenge') {
+        const questionStartTime = gameState.startTime + (gameState.elapsedTime * 1000);
+        const questionTime = Math.floor((new Date() - questionStartTime) / 1000);
+        gameState.challengeTimes.push(questionTime);
+    }
+    
+    if (userAnswer) {
+        playSound('key');
+        
+        const currentNum = gameState.questions[gameState.currentQuestion - 1];
+        const correctAnswer = calculate95Percent(currentNum);
+        
+        gameState.userAnswers.push(parseInt(userAnswer));
+        gameState.correctAnswers.push(correctAnswer);
+        
+        if (parseInt(userAnswer) === correctAnswer) {
+            gameState.score++;
+            playSound('correct');
+            document.getElementById('answer-input').classList.add('pulse');
+            document.getElementById('answer-input').style.backgroundColor = '#e8f5e9';
+            setTimeout(() => {
+                document.getElementById('answer-input').classList.remove('pulse');
+            }, 300);
+        } else {
+            gameState.incorrectList.push({
+                question: currentNum,
+                userAnswer: parseInt(userAnswer),
+                correctAnswer: correctAnswer
+            });
+            playSound('wrong');
+            document.getElementById('answer-input').classList.add('pulse');
+            document.getElementById('answer-input').style.backgroundColor = '#ffebee';
+            setTimeout(() => {
+                document.getElementById('answer-input').classList.remove('pulse');
+            }, 300);
         }
+    } else {
+        // 如果没有输入答案
+        const currentNum = gameState.questions[gameState.currentQuestion - 1];
+        const correctAnswer = calculate95Percent(currentNum);
+        
+        gameState.userAnswers.push(null);
+        gameState.correctAnswers.push(correctAnswer);
+        gameState.incorrectList.push({
+            question: currentNum,
+            userAnswer: null,
+            correctAnswer: correctAnswer
+        });
+    }
+    
+        // 进入下一题
+        gameState.currentQuestion++;
+    
+        if (gameState.currentQuestion > gameState.questions.length) {
+            endGame();
+            return;
+        }
+    
+        document.getElementById('current-question').textContent = gameState.currentQuestion;
+        document.getElementById('question').textContent = gameState.questions[gameState.currentQuestion - 1];
+        document.getElementById('answer-input').value = '';
+        document.getElementById('answer-input').style.backgroundColor = '';
+    
+        updateProgressBar();
+        document.getElementById('next-btn').disabled = true;
+    
+         // 如果是挑战模式，重置倒计时并重新开始
+        if (gameState.mode === 'challenge') {
+            // 根据当前难度设置倒计时时间
+            switch(gameState.difficulty) {
+                case 'basic': gameState.challengeTimeLeft = 10; break;
+                case 'advanced': gameState.challengeTimeLeft = 7; break;
+                case 'expert': gameState.challengeTimeLeft = 5; break;
+                }
+            startChallengeTimer();
+        }
+    }
 
+   
         // 结束游戏
         function endGame() {
             clearInterval(gameState.timerInterval);
@@ -1362,6 +1387,7 @@
     </script>
 </body>
 </html>
+
 
 
 
