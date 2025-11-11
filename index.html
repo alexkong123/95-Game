@@ -530,6 +530,20 @@
                 padding: 12px;
             }
         }
+
+         /* 防止iOS缩放的特殊处理 */
+        @supports (-webkit-overflow-scrolling: touch) {
+            body {
+                overscroll-behavior: contain;
+            }
+        }
+        
+        /* 防止Android缩放的特殊处理 */
+        @media (hover: none) and (pointer: coarse) {
+            body {
+                touch-action: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1360,4 +1374,5 @@
     </script>
 </body>
 </html>
+
 
