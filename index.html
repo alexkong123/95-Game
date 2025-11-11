@@ -969,31 +969,32 @@
             });
         });
 
-        // 挑战模式选择
-        document.querySelectorAll('#challenge-screen .difficulty-option').forEach(option => {
-            option.addEventListener('click', function() {
-                gameState.mode = 'challenge';
-                gameState.difficulty = this.dataset.difficulty;
-                
-                // 根据难度设置题目数量和时间限制
-                switch(gameState.difficulty) {
-                    case 'basic':
-                        gameState.totalQuestions = 30;
-                        gameState.challengeTimeLeft = 10;
-                        break;
-                    case 'advanced':
-                        gameState.totalQuestions = 50;
-                        gameState.challengeTimeLeft = 7;
-                        break;
-                    case 'expert':
-                        gameState.totalQuestions = 99;
-                        gameState.challengeTimeLeft = 5;
-                        break;
-                }
-                
-                startGame();
+       // 挑战模式选择逻辑
+       document.querySelectorAll('#challenge-screen .difficulty-option').forEach(option => {
+        option.addEventListener('click', function() {
+        gameState.mode = 'challenge';
+        gameState.difficulty = this.dataset.difficulty;
+        
+        // 根据难度设置题目数量和时间限制
+        switch(gameState.difficulty) {
+            case 'basic':
+                gameState.totalQuestions = 30; // 30题
+                gameState.challengeTimeLeft = 10; // 10秒/题
+                break;
+            case 'advanced':
+                gameState.totalQuestions = 50; // 50题
+                gameState.challengeTimeLeft = 7; // 7秒/题
+                break;
+            case 'expert':
+                gameState.totalQuestions = 99; // 99题
+                gameState.challengeTimeLeft = 5; // 5秒/题
+                break;
+            }
+        
+            startGame();
             });
         });
+
 
         // 生成指定范围内的不重复整百数题目
         function generateQuestions() {
@@ -1361,6 +1362,7 @@
     </script>
 </body>
 </html>
+
 
 
 
