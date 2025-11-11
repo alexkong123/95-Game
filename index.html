@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>95數背數小游戲 - 練習模式優化版</title>
+    <title>95數背數小游戲 - 挑戰模式優化版</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -212,7 +212,7 @@
         .progress-fill {
             height: 100%;
             background: linear-gradient(to right, #3498db, #2ecc71);
-            border-radius: 5px;
+            border-radius: 5极;
             transition: width 0.5s ease;
         }
         
@@ -234,7 +234,7 @@
         }
         
         .share-btn {
-            background: linear-gradient(45deg, #2ecc71, #27ae60);
+            background: linear-gradient(45deg, #2ecc71, #27ae极0);
             color: white;
             border: none;
             padding: 14px 20px;
@@ -305,7 +305,7 @@
             align-items: center;
             cursor: pointer;
             z-index: 10;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 极 2px 5px rgba(0, 0, 0, 0.1);
         }
         
         .bgm-toggle {
@@ -459,7 +459,7 @@
         
         .difficulty-option:hover {
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5极 15px rgba(0, 0, 0, 0.1);
             border-color: #3498db;
         }
         
@@ -538,7 +538,7 @@
     </div>
     
     <div class="bgm-toggle" id="bgm-toggle">
-        <i class="fas fa-music" id="bgm-icon"></i>
+        <i class="fas fa-music" id="bgm-icon"></极>
     </div>
     
     <div class="container">
@@ -619,17 +619,17 @@
                 
                 <div class="difficulty-option" data-difficulty="basic">
                     <h3><i class="fas fa-star"></i> 基礎挑戰</h3>
-                    <p>15秒/題 · 10題 · 適合新手</p>
+                    <p>10秒/題 · 30題 · 適合新手</p>
                 </div>
                 
                 <div class="difficulty-option" data-difficulty="advanced">
                     <h3><i class="fas fa-star-half-alt"></i> 進階挑戰</h3>
-                    <p>10秒/題 · 20題 · 中等難度</p>
+                    <p>7秒/題 · 50題 · 中等難度</p>
                 </div>
                 
                 <div class="difficulty-option" data-difficulty="expert">
                     <h3><i class="fas fa-star"></i> 專家挑戰</h3>
-                    <p>7秒/題 · 30題 · 高手專屬</p>
+                    <p>5秒/題 · 99題 · 高手專屬</p>
                 </div>
             </div>
         </div>
@@ -837,7 +837,7 @@
                 
                 newOscillator.type = oscillator.type;
                 newOscillator.frequency.value = oscillator.frequency.value;
-                newGainNode.gain.value = gainNode.gain.value;
+                newGainNode.gain.value = gainNode.g极.value;
                 
                 newOscillator.connect(newGainNode);
                 newGainNode.connect(audioContext.destination);
@@ -977,16 +977,16 @@
                 // 根据难度设置题目数量和时间限制
                 switch(gameState.difficulty) {
                     case 'basic':
-                        gameState.totalQuestions = 10;
-                        gameState.challengeTimeLeft = 15;
+                        gameState.totalQuestions = 30; // 30题
+                        gameState.challengeTimeLeft = 10; // 10秒/题
                         break;
                     case 'advanced':
-                        gameState.totalQuestions = 20;
-                        gameState.challengeTimeLeft = 10;
+                        gameState.totalQuestions = 50; // 50题
+                        gameState.challengeTimeLeft = 7; // 7秒/题
                         break;
                     case 'expert':
-                        gameState.totalQuestions = 30;
-                        gameState.challengeTimeLeft = 7;
+                        gameState.totalQuestions = 99; // 99题
+                        gameState.challengeTimeLeft = 5; // 5秒/题
                         break;
                 }
                 
@@ -1212,10 +1212,11 @@
             
             // 如果是挑战模式，重置倒计时
             if (gameState.mode === 'challenge') {
+                // 根据当前难度设置倒计时时间
                 switch(gameState.difficulty) {
-                    case 'basic': gameState.challengeTimeLeft = 15; break;
-                    case 'advanced': gameState.challengeTimeLeft = 10; break;
-                    case 'expert': gameState.challengeTimeLeft = 7; break;
+                    case 'basic': gameState.challengeTimeLeft = 10; break;
+                    case 'advanced': gameState.challengeTimeLeft = 7; break;
+                    case 'expert': gameState.challengeTimeLeft = 5; break;
                 }
                 startChallengeTimer();
             }
