@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>95數背數小游戲~測試版</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft JhengHei', sans-serif;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+            overflow: hidden;
+            touch-action: none;
+            background: url('https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') no-repeat center center;
+            background-size: cover;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.85);
+            z-index: 0;
+        }
+        
+        .container {
+            width: 95%;
+            max-width: 500px;
+            height: 95vh;
+            max-height: 800px;
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 20px;
+            padding: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        h1 {
+            margin-top: 10px;
+            font-size: 2rem;
+            color: #2c3e50;
+            text-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+        }
+        
+        .screen {
+            display: none;
+            flex: 1;
+            flex-direction: column;
+            overflow-y: auto;
+            padding: 10px 0;
+        }
+        
+        .active {
+            display: flex;
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            margin: 8px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 140px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        
+        .practice-range-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .practice-range-btn {
+            background: linear-gradient(45deg, #2ecc71, #27ae60);
+            padding: 10px 15px;
+            font-size: 0.9rem;
+        }
+        
+        .question-container {
+            background: linear-gradient(135deg, #f5f7fa, #e4e7f0);
+            border-radius: 15px;
+            padding: 15px;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .question {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #2c3e50;
+            letter-spacing: 1px;
+            background: linear-gradient(45deg, #3498db, #9b59b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .answer-input {
+            width: 90%;
+            padding: 15px;
+            font-size: 1.6rem;
+            text-align: center;
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+            outline: none;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .answer-input:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+            padding: 0 10px;
+        }
+        
+        .key {
+            padding: 14px 5px;
+            font-size: 1.6rem;
+            background: #2c3e50;
+            border: none;
+            border-radius: 12px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .key:active {
+            transform: scale(0.95);
+            background: #1a252f;
+        }
+        
+        .control-btn {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 10px;
+            padding: 0 10px;
+        }
+        
+        .progress-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 10px 0;
+        }
+        
+        .progress-text {
+            font-size: 1rem;
+            margin-bottom: 6px;
+            color: #7f8c8d;
+        }
+        
+        .progress-bar {
+            width: 90%;
+            height: 10px;
+            background: #ecf0f1;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, #3498db, #2ecc71);
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+        
+        .result-item {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 12px;
+            margin: 10px 0;
+            text-align: left;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .correct {
+            border-left: 4px solid #2ecc71;
+        }
+        
+        .incorrect {
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .share-btn {
+            background: linear-gradient(45deg, #2ecc71, #27ae60);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 15px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            width: 90%;
+            max-width: 300px;
+        }
+        
+        .timer {
+            font-size: 1rem;
+            margin: 6px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            color: #7f8c8d;
+        }
+        
+        .feature-badge {
+            display: inline-block;
+            background: #e0f7fa;
+            color: #00796b;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin: 4px;
+            font-size: 0.8rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .instructions {
+            background: #e3f2fd;
+            padding: 12px;
+            border-radius: 15px;
+            margin: 12px 0;
+            text-align: left;
+            font-size: 0.85rem;
+            color: #1a237e;
+        }
+        
+        .instructions h3 {
+            margin-top: 0;
+            color: #0d47a1;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .sound-toggle {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 10;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .bgm-toggle {
+            position: absolute;
+            top: 15px;
+            right: 60px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 10;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .wx-tip {
+            background: #e1f5fe;
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-size: 0.8rem;
+            color: #0277bd;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .sound-status {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .sound-status.error {
+            background: #ffebee;
+            color: #c62828;
+        }
+        
+        .pulse {
+            animation: pulse 0.3s ease;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* 微信优化 */
+        @media (max-width: 500px) {
+            .container {
+                height: 100vh;
+                max-height: none;
+                border-radius: 0;
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .question {
+                font-size: 3rem;
+            }
+            
+            .btn {
+                width: 120px;
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .key {
+                padding: 12px 5px;
+                font-size: 1.4rem;
+            }
+            
+            .answer-input {
+                padding: 12px;
+                font-size: 1.4rem;
+            }
+            
+            .bgm-toggle {
+                right: 55px;
+            }
+        }
+        
+        /* 防止iOS缩放的特殊处理 */
+        @supports (-webkit-overflow-scrolling: touch) {
+            body {
+                overscroll-behavior: contain;
+            }
+        }
+        
+        /* 防止Android缩放的特殊处理 */
+        @media (hover: none) and (pointer: coarse) {
+            body {
+                touch-action: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sound-toggle" id="sound-toggle">
+        <i class="fas fa-volume-up" id="sound-icon"></i>
+    </div>
+    
+    <div class="bgm-toggle" id="bgm-toggle">
+        <i class="fas fa-music" id="bgm-icon"></i>
+    </div>
+    
+    <div class="container">
+        <!-- 首页 -->
+        <div id="home-screen" class="screen active">
+            <div>
+                <h1>95數背數小游戲～測試版</h1>
+                <div class="subtitle">計算95數的快速訓練 · 提升心算能力</div>
+                
+                <div class="instructions">
+                    <h3><i class="fas fa-info-circle"></i> 游戲說明</h3>
+                    <p>1. 隨機出现100-9900的整百位數</p>
+                    <p>2. 快速輸入該數的的95數结果</p>
+                    <p>3. 使用下方數字鍵盤輸入答案</p>
+                    <p>4. 輸入答案後需先按確定,才可按下一題</p>
+                    <p>5. 完成所有題目後可查看成績和錯題</p>
+                    <p>示例：100 → 95，200 → 190，1000 → 950，3000 → 2850</p>
+                </div>
+                
+                <div>
+                    <div class="feature-badge"><i class="fas fa-sync-alt"></i> 隨機不重複題目</div>
+                    <div class="feature-badge"><i class="fas fa-stopwatch"></i> 計時功能</div>
+                    <div class="feature-badge"><i class="fas fa-music"></i> 背景音乐</div>
+                    <div class="feature-badge"><i class="fas fa-trophy"></i> 成绩统计</div>
+                </div>
+                
+                <div class="sound-status" id="sound-status">
+                    <i class="fas fa-volume-up"></i> 音效系统已启用
+                </div>
+            </div>
+            
+            <div class="btn-grid">
+                <button class="btn" id="practice-mode-btn">
+                    <i class="fas fa-graduation-cap"></i> 練習模式
+                </button>
+                
+                <button class="btn" id="challenge-mode-btn">
+                    <i class="fas fa-flag"></i> 挑戰模式
+                </button>
+            </div>
+            
+            <div class="practice-range-grid" id="practice-range-grid" style="display: none;">
+                <button class="btn practice-range-btn" data-range="1">100-1900練習</button>
+                <button class="btn practice-range-btn" data-range="2">2100-3900練習</button>
+                <button class="btn practice-range-btn" data-range="3">4100-6900練習</button>
+                <button class="btn practice-range-btn" data-range="4">7100-9900練習</button>
+            </div>
+            
+            <div class="wx-tip">
+                <i class="fas fa-mobile-alt"></i> 提示：此應用由PID制作（Alexkong)
+            </div>
+        </div>
+
+        <!-- 游戏页 -->
+        <div id="game-screen" class="screen">
+            <!-- 返回首页按钮 -->
+            <div class="back-home-btn" id="back-home-game">
+                <i class="fas fa-home"></i>
+            </div>
+
+            <div>
+                <h1>95數背數小游戲</h1>
+                
+                <div class="progress-container">
+                    <div class="progress-text">第 <span id="current-question">1</span> 题 / 共 <span id="total-questions">10</span> 题</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+                    </div>
+                    <div class="timer">
+                        <i class="fas fa-clock"></i> 用時: <span id="timer">00:00</span>
+                    </div>
+                </div>
+                
+                <div class="question-container">
+                    <div class="question" id="question">100</div>
+                </div>
+                
+                <input type="text" class="answer-input" id="answer-input" placeholder="輸入95數答案" readonly>
+            </div>
+            
+            <div>
+                <div class="keypad">
+                    <button class="key">1</button>
+                    <button class="key">2</button>
+                    <button class="key">3</button>
+                    <button class="key">4</button>
+                    <button class="key">5</button>
+                    <button class="key">6</button>
+                    <button class="key">7</button>
+                    <button class="key">8</button>
+                    <button class="key">9</button>
+                    <button class="key" id="backspace"><i class="fas fa-backspace"></i></button>
+                    <button class="key">0</button>
+                    <button class="key" id="clear"><i class="fas fa-trash-alt"></i></button>
+                </div>
+                
+                <div class="control-btn">
+                    <button class="btn" id="submit-btn"><i class="fas fa-check-circle"></i> 确定</button>
+                    <button class="btn" id="next-btn"><i class="fas fa-arrow-right"></i> 下一题</button>
+                </div>
+
+                <div class="wx-tip">
+                <i class="fas fa-mobile-alt"></i> 提示：此應用由PID制作（Alexkong)
+                </div>
+            </div>
+        </div>
+
+        <!-- 结果页 -->
+        <div id="result-screen" class="screen">
+            <div>
+                <h1>挑戰完成！</h1>
+                
+                <div class="score" style="font-size: 1.4rem; margin: 12px 0;">
+                    得分：<span id="score" style="font-size: 1.8rem; color:#3498db;">0</span> / <span id="total" style="font-size: 1.8rem;">10</span>
+                </div>
+                
+                <div class="accuracy" style="font-size: 1.2rem; margin-bottom: 15px;">
+                    正確率：<span id="accuracy" style="font-size: 1.6rem; color:#e74c3c;">0</span>%
+                </div>
+                
+                <div class="timer" style="font-size: 1rem; margin-bottom: 12px;">
+                    <i class="fas fa-stopwatch"></i> 總用時: <span id="total-time">00:00</span>
+                </div>
+                
+                <div style="margin: 15px 0;">
+                    <h3><i class="fas fa-exclamation-triangle"></i> 錯題記錄：</h3>
+                    <div id="incorrect-answers" style="max-height: 200px; overflow-y: auto;"></div>
+                </div>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <button class="btn" id="restart-btn" style="background: linear-gradient(45deg, #f39c12, #e67e22);">
+                    <i class="fas fa-redo"></i> 再玩一次
+                </button>
+                
+                <button class="share-btn" id="share-btn">
+                    <i class="fab fa-weixin"></i> 分享成绩
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 背景音乐播放器 -->
+    <audio id="bg-music" loop>
+        <source src="https://github.com/alexkong123/bg-music-repo/raw/refs/heads/main/ElevateMusica-%20%5BCopyright%20Safe%20Background%20Music%5D.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // ======================
+        // 背景音乐系统
+        // ======================
+        
+        // 背景音乐控制
+        let bgmEnabled = true;
+        const bgmToggle = document.getElementById('bgm-toggle');
+        const bgmIcon = document.getElementById('bgm-icon');
+        const bgMusic = document.getElementById('bg-music');
+        
+        // 设置背景音乐
+        function setupBackgroundMusic() {
+            // 设置音量 (10%)
+            bgMusic.volume = 0.10;
+            
+            // 尝试播放背景音乐（需要用户交互）
+            document.body.addEventListener('click', function initBGM() {
+                if (bgmEnabled && bgMusic.paused) {
+                    bgMusic.play().catch(e => console.log('背景音乐播放失败:', e));
+                }
+                // 移除事件监听器，只需触发一次
+                document.body.removeEventListener('click', initBGM);
+            });
+        }
+        
+        // 背景音乐开关
+        bgmToggle.addEventListener('click', () => {
+            bgmEnabled = !bgmEnabled;
+            bgmIcon.className = bgmEnabled ? 'fas fa-music' : 'fas fa-music-slash';
+            
+            if (bgmEnabled) {
+                bgMusic.play().catch(e => console.log('背景音乐播放失败:', e));
+            } else {
+                bgMusic.pause();
+            }
+        });
+        
+        // 初始化背景音乐
+        setupBackgroundMusic();
+        
+        // ======================
+        // 音效系统
+        // ======================
+        
+        // 音效控制
+        let soundEnabled = true; // 默认开启音效
+        const soundToggle = document.getElementById('sound-toggle');
+        const soundIcon = document.getElementById('sound-icon');
+        const soundStatus = document.getElementById('sound-status');
+        
+        // 创建AudioContext
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioContext;
+        
+        // 创建音效缓冲
+        const soundBuffers = {};
+        
+        // 初始化音效系统
+        function initSoundSystem() {
+            try {
+                // 创建音频上下文
+                audioContext = new AudioContext();
+                
+                // 创建简单音效
+                soundBuffers.key = createBeep(800, 0.05);
+                soundBuffers.correct = createBeep(1200, 0.1);
+                soundBuffers.wrong = createBeep(400, 0.2);
+                soundBuffers.start = createBeep(1000, 0.2);
+                soundBuffers.end = createBeep(600, 0.3);
+                soundBuffers.button = createBeep(600, 0.1);
+                
+                // 更新状态显示
+                soundStatus.innerHTML = '<i class="fas fa-volume-up"></i> 音效系统已启用';
+                soundStatus.className = 'sound-status';
+                
+                // 测试播放按钮音效
+                playSound('button');
+            } catch (e) {
+                console.error('音效初始化失败:', e);
+                soundStatus.innerHTML = `<i class="fas fa-exclamation-triangle"></i> 音效初始化失败: ${e.message}`;
+                soundStatus.className = 'sound-status error';
+                soundEnabled = false;
+            }
+        }
+        
+        // 创建简单的蜂鸣声
+        function createBeep(frequency, duration) {
+            if (!audioContext) return;
+            
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.type = 'sine';
+            oscillator.frequency.value = frequency;
+            gainNode.gain.value = 0.3;
+            
+            return { oscillator, gainNode, duration };
+        }
+        
+        // 播放音效函数
+        function playSound(type) {
+            if (!soundEnabled) return;
+            if (!soundBuffers[type]) return;
+            
+            try {
+                // 确保音频上下文处于运行状态
+                if (audioContext.state === 'suspended') {
+                    audioContext.resume();
+                }
+                
+                const { oscillator, gainNode, duration } = soundBuffers[type];
+                
+                // 复制音效设置
+                const newOscillator = audioContext.createOscillator();
+                const newGainNode = audioContext.createGain();
+                
+                newOscillator.type = oscillator.type;
+                newOscillator.frequency.value = oscillator.frequency.value;
+                newGainNode.gain.value = gainNode.gain.value;
+                
+                newOscillator.connect(newGainNode);
+                newGainNode.connect(audioContext.destination);
+                
+                newOscillator.start();
+                newOscillator.stop(audioContext.currentTime + duration);
+            } catch (e) {
+                console.error('播放音效失败:', e);
+            }
+        }
+        
+        // 音效开关
+        soundToggle.addEventListener('click', () => {
+            soundEnabled = !soundEnabled;
+            soundIcon.className = soundEnabled ? 'fas fa-volume-up' : 'fas fa-volume-mute';
+            playSound('button');
+            
+            // 更新状态显示
+            soundStatus.innerHTML = soundEnabled 
+                ? '<i class="fas fa-volume-up"></i> 音效系统已启用' 
+                : '<i class="fas fa-volume-mute"></i> 音效已关闭';
+        });
+        
+        // 初始化音效系统
+        setTimeout(initSoundSystem, 500);
+        
+        // ======================
+        // 游戏逻辑
+        // ======================
+        
+        // 防止页面缩放的特殊JavaScript
+        document.addEventListener('touchmove', function(event) {
+            if (event.scale !== 1) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+        
+        document.addEventListener('gesturestart', function(e) {
+            e.preventDefault();
+        });
+        
+        document.addEventListener('dblclick', function(e) {
+            e.preventDefault();
+        });
+
+        // 游戏状态管理
+        const gameState = {
+            totalQuestions: 10,
+            currentQuestion: 1,
+            score: 0,
+            questions: [],
+            userAnswers: [],
+            correctAnswers: [],
+            incorrectList: [],
+            startTime: null,
+            timerInterval: null,
+            elapsedTime: 0,
+            usedNumbers: new Set(),
+            isPracticeMode: false,
+            practiceRange: null
+        };
+
+        // DOM元素
+        const screens = {
+            home: document.getElementById('home-screen'),
+            game: document.getElementById('game-screen'),
+            result: document.getElementById('result-screen')
+        };
+
+        // 切换屏幕
+        function showScreen(screen) {
+            Object.values(screens).forEach(s => s.classList.remove('active'));
+            screen.classList.add('active');
+        }
+
+         // 返回首页功能
+        function goToHomeScreen() {
+            // 停止游戏计时器
+            clearInterval(gameState.timerInterval);
+            // 播放按钮音效
+            playSound('button');
+            // 切换到首页
+            showScreen(screens.home);
+        }
+        
+        // 绑定返回首页按钮事件
+        document.getElementById('back-home-game').addEventListener('click', goToHomeScreen);
+        document.getElementById('back-home-result').addEventListener('click', goToHomeScreen);
+
+        // 生成不重复的题目 (100-9900的整百数)
+        function generateQuestions(count) {
+            const questions = [];
+            const allNumbers = Array.from({length: 99}, (_, i) => (i + 1) * 100);
+            
+            // 如果请求数量超过可用数字，则使用全部数字
+            const actualCount = Math.min(count, allNumbers.length);
+            
+            // 洗牌算法打乱数组
+            for (let i = allNumbers.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [allNumbers[i], allNumbers[j]] = [allNumbers[j], allNumbers[i]];
+            }
+            
+            // 取前actualCount个不重复的数字
+            for (let i = 0; i < actualCount; i++) {
+                const num = allNumbers[i];
+                questions.push(num);
+                gameState.usedNumbers.add(num);
+            }
+            
+            return questions;
+        }
+
+        // 计算95折答案
+        function calculate95Percent(number) {
+            return Math.floor(number * 0.95);
+        }
+
+        // 开始计时器
+        function startTimer() {
+            gameState.startTime = new Date();
+            gameState.timerInterval = setInterval(() => {
+                const now = new Date();
+                gameState.elapsedTime = Math.floor((now - gameState.startTime) / 1000);
+                updateTimerDisplay();
+            }, 1000);
+        }
+
+        // 更新计时器显示
+        function updateTimerDisplay() {
+            const minutes = Math.floor(gameState.elapsedTime / 60).toString().padStart(2, '0');
+            const seconds = (gameState.elapsedTime % 60).toString().padStart(2, '0');
+            document.getElementById('timer').textContent = `${minutes}:${seconds}`;
+        }
+
+        // 更新进度条
+        function updateProgressBar() {
+            const progress = ((gameState.currentQuestion - 1) / gameState.totalQuestions) * 100;
+            document.getElementById('progress-fill').style.width = `${progress}%`;
+        }
+
+        // 开始新游戏
+        function startGame(mode, range = null) {
+            clearInterval(gameState.timerInterval);
+            
+            gameState.isPracticeMode = mode === 'practice';
+            gameState.practiceRange = range;
+            gameState.currentQuestion = 1;
+            gameState.score = 0;
+            gameState.questions = [];
+            gameState.userAnswers = [];
+            gameState.correctAnswers = [];
+            gameState.incorrectList = [];
+            gameState.elapsedTime = 0;
+            gameState.usedNumbers.clear(); // 重置已用数字集
+            
+            if (gameState.isPracticeMode && range) {
+                // 生成练习模式的题目
+                gameState.questions = generatePracticeQuestions(range);
+            } else {
+                // 挑战模式
+                gameState.questions = generateQuestions(99); // 99题
+            }
+            
+            gameState.totalQuestions = gameState.questions.length; // 总题数
+
+            document.getElementById('current-question').textContent = '1';
+            document.getElementById('total-questions').textContent = gameState.totalQuestions;
+            document.getElementById('question').textContent = gameState.questions[0];
+            document.getElementById('answer-input').value = '';
+            document.getElementById('progress-fill').style.width = '0%';
+            document.getElementById('next-btn').disabled = true;
+            document.getElementById('submit-btn').disabled = false;
+            
+            showScreen(screens.game);
+            startTimer();
+            updateProgressBar();
+            playSound('start');
+        }
+
+        // 生成练习模式的题目
+        function generatePracticeQuestions(range) {
+            let start, end;
+            
+            switch(range) {
+                case 1: // 100-1900
+                    start = 100;
+                    end = 1900;
+                    break;
+                case 2: // 2100-3900
+                    start = 2100;
+                    end = 3900;
+                    break;
+                case 3: // 4100-6900
+                    start = 4100;
+                    end = 6900;
+                    break;
+                case 4: // 7100-9900
+                    start = 7100;
+                    end = 9900;
+                    break;
+                default:
+                    start = 100;
+                    end = 1900;
+            }
+            
+            // 生成从start到end的整百数
+            const numbers = [];
+            for (let num = start; num <= end; num += 100) {
+                numbers.push(num);
+            }
+            
+            // 洗牌算法打乱顺序
+            for (let i = numbers.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
+            }
+            
+            return numbers;
+        }
+
+        // 提交答案
+        function submitAnswer() {
+            const userAnswer = document.getElementById('answer-input').value;
+            if (!userAnswer) return;
+            
+            const currentNum = gameState.questions[gameState.currentQuestion - 1];
+            const correctAnswer = calculate95Percent(currentNum);
+            
+            gameState.userAnswers.push(parseInt(userAnswer));
+            gameState.correctAnswers.push(correctAnswer);
+            
+            if (parseInt(userAnswer) === correctAnswer) {
+                gameState.score++;
+                // 播放正确音效
+                playSound('correct');
+                // 添加视觉反馈
+                document.getElementById('answer-input').classList.add('pulse');
+                document.getElementById('answer-input').style.backgroundColor = '#e8f5e9';
+                setTimeout(() => {
+                    document.getElementById('answer-input').classList.remove('pulse');
+                }, 300);
+            } else {
+                gameState.incorrectList.push({
+                    question: currentNum,
+                    userAnswer: parseInt(userAnswer),
+                    correctAnswer: correctAnswer
+                });
+                // 播放错误音效
+                playSound('wrong');
+                // 添加视觉反馈
+                document.getElementById('answer-input').classList.add('pulse');
+                document.getElementById('answer-input').style.backgroundColor = '#ffebee';
+                setTimeout(() => {
+                    document.getElementById('answer-input').classList.remove('pulse');
+                }, 300);
+            }
+            
+            // 禁用提交按钮，启用下一题按钮
+            document.getElementById('submit-btn').disabled = true;
+            document.getElementById('next-btn').disabled = false;
+        }
+
+        // 下一题
+        function nextQuestion() {
+            playSound('button');
+            
+            gameState.currentQuestion++;
+            
+            if (gameState.currentQuestion > gameState.questions.length) {
+                endGame();
+                return;
+            }
+            
+            document.getElementById('current-question').textContent = gameState.currentQuestion;
+            document.getElementById('question').textContent = gameState.questions[gameState.currentQuestion - 1];
+            document.getElementById('answer-input').value = '';
+            document.getElementById('answer-input').style.backgroundColor = '';
+            
+            // 启用提交按钮，禁用下一题按钮
+            document.getElementById('submit-btn').disabled = false;
+            document.getElementById('next-btn').disabled = true;
+            
+            updateProgressBar();
+        }
+
+        // 结束游戏
+        function endGame() {
+            clearInterval(gameState.timerInterval);
+            showResults();
+            
+            // 播放结束音效
+            playSound('end');
+        }
+
+        // 显示结果
+        function showResults() {
+            const totalQuestions = gameState.questions.length;
+            const accuracy = Math.round((gameState.score / totalQuestions) * 100);
+            
+            document.getElementById('score').textContent = gameState.score;
+            document.getElementById('total').textContent = totalQuestions;
+            document.getElementById('accuracy').textContent = accuracy;
+            
+            const minutes = Math.floor(gameState.elapsedTime / 60).toString().padStart(2, '0');
+            const seconds = (gameState.elapsedTime % 60).toString().padStart(2, '0');
+            document.getElementById('total-time').textContent = `${minutes}:${seconds}`;
+            
+            const incorrectContainer = document.getElementById('incorrect-answers');
+            incorrectContainer.innerHTML = '';
+            
+            if (gameState.incorrectList.length === 0) {
+                incorrectContainer.innerHTML = '<div class="result-item" style="text-align:center; background:#e8f5e9; color:#2e7d32;">太棒了！全部答对！🎉</div>';
+            } else {
+                gameState.incorrectList.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'result-item incorrect';
+                    div.innerHTML = `
+                        <div><strong>题目:</strong> ${item.question}</div>
+                        <div><strong>您的答案:</strong> ${item.userAnswer}</div>
+                        <div><strong>正确答案:</strong> <span style="color:#e74c3c;">${item.correctAnswer}</span></div>
+                    `;
+                    incorrectContainer.appendChild(div);
+                });
+            }
+            
+            // 显示模式信息
+            if (gameState.isPracticeMode) {
+                const rangeText = document.querySelector(`.practice-range-btn[data-range="${gameState.practiceRange}"]`).textContent;
+                const infoDiv = document.createElement('div');
+                infoDiv.className = 'result-item';
+                infoDiv.innerHTML = `<strong>練習範圍:</strong> ${rangeText}`;
+                infoDiv.style.marginTop = '10px';
+                infoDiv.style.textAlign = 'center';
+                incorrectContainer.appendChild(infoDiv);
+            }
+            
+            showScreen(screens.result);
+        }
+
+        // 分享功能
+        function shareToWechat() {
+            playSound('button');
+            alert('请使用微信右上角的分享功能分享此页面！');
+        }
+
+        // 事件监听器
+        document.querySelector('.practice-range-grid').addEventListener('click', function(e) {
+            if (e.target.classList.contains('practice-range-btn')) {
+                const range = e.target.dataset.range;
+                playSound('button');
+                startGame('practice', parseInt(range));
+            }
+        });
+
+        document.getElementById('practice-mode-btn').addEventListener('click', function() {
+            document.getElementById('practice-range-grid').style.display = 'flex';
+            playSound('button');
+        });
+
+        document.getElementById('challenge-mode-btn').addEventListener('click', function() {
+            document.getElementById('practice-range-grid').style.display = 'none';
+            playSound('button');
+            startGame('challenge');
+        });
+
+        document.getElementById('submit-btn').addEventListener('click', submitAnswer);
+        document.getElementById('next-btn').addEventListener('click', nextQuestion);
+        document.getElementById('restart-btn').addEventListener('click', () => {
+            playSound('button');
+            showScreen(screens.home);
+        });
+        document.getElementById('share-btn').addEventListener('click', shareToWechat);
+
+        // 数字键盘处理
+        document.querySelectorAll('.key:not(#backspace):not(#clear)').forEach(key => {
+            key.addEventListener('click', () => {
+                playSound('key');
+                document.getElementById('answer-input').value += key.textContent;
+            });
+        });
+
+        document.getElementById('backspace').addEventListener('click', () => {
+            playSound('key');
+            const input = document.getElementById('answer-input');
+            input.value = input.value.slice(0, -1);
+        });
+
+        document.getElementById('clear').addEventListener('click', () => {
+            playSound('key');
+            document.getElementById('answer-input').value = '';
+        });
+
+        // 键盘支持
+        document.addEventListener('keydown', (e) => {
+            if (e.key >= '0' && e.key <= '9') {
+                playSound('key');
+                document.getElementById('answer-input').value += e.key;
+            } else if (e.key === 'Backspace') {
+                playSound('key');
+                const input = document.getElementById('answer-input');
+                input.value = input.value.slice(0, -1);
+            } else if (e.key === 'Enter') {
+                if (!document.getElementById('next-btn').disabled) {
+                    nextQuestion();
+                } else {
+                    submitAnswer();
+                }
+            }
+        });
+
+        // 初始化禁用下一题按钮
+        document.getElementById('next-btn').disabled = true;
+        
+        // 微信环境特殊处理
+        if (navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1) {
+            document.querySelector('.wx-tip').style.display = 'flex';
+        }
+    </script>
+</body>
+</html>
