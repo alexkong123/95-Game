@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>95數背數小游戲</title>
+    <title>95數背數小游戲 </title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -56,17 +56,10 @@
         }
         
         h1 {
-            margin-top: 10px;
-            font-size: 1.8rem;
+            margin-top: 20px;
+            font-size: 2.2rem;
             color: #2c3e50;
             text-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
-            margin-bottom: 5px;
-            padding: 0 10px;
-        }
-        
-        .subtitle {
-            font-size: 0.9rem;
-            color: #7f8c8d;
             margin-bottom: 10px;
             padding: 0 10px;
         }
@@ -87,28 +80,36 @@
             background: linear-gradient(45deg, #3498db, #2980b9);
             border: none;
             color: white;
-            padding: 14px 0;
-            margin: 10px;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: 600;
+            padding: 18px 0;
+            margin: 15px;
+            border-radius: 15px;
+            font-size: 1.8rem;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
-            width: 85%;
-            max-width: 300px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
             display: block;
             margin-left: auto;
             margin-right: auto;
         }
         
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
         }
         
         .btn:active {
-            transform: translateY(0);
+            transform: translateY(1px);
+        }
+        
+        .btn.practice {
+            background: linear-gradient(45deg, #2ecc71, #27ae60);
+        }
+        
+        .btn.challenge {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
         }
         
         .btn-grid {
@@ -119,7 +120,7 @@
         }
         
         .question-container {
-            background: linear-gradient(135deg, #f5f7fa, #e4e7f0);
+            background: linear-gradient(135极, #f5f7fa, #e4e7f0);
             border-radius: 15px;
             padding: 15px;
             margin: 15px 10px;
@@ -266,36 +267,6 @@
             color: #7f8c8d;
         }
         
-        .feature-badge {
-            display: inline-block;
-            background: #e0f7fa;
-            color: #00796b;
-            padding: 4px 12px;
-            border-radius: 20px;
-            margin: 4px;
-            font-size: 0.8rem;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-        
-        .instructions {
-            background: #e3f2fd;
-            padding: 12px;
-            border-radius: 15px;
-            margin: 12px 10px;
-            text-align: left;
-            font-size: 0.85rem;
-            color: #1a237e;
-        }
-        
-        .instructions h3 {
-            margin-top: 0;
-            color: #0d47a1;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
         .sound-toggle {
             position: absolute;
             top: 15px;
@@ -330,47 +301,6 @@
             font-size: 1.2rem;
         }
         
-        .wx-tip {
-            background: #e1f5fe;
-            border-radius: 10px;
-            padding: 8px 12px;
-            font-size: 0.8rem;
-            color: #0277bd;
-            margin: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        
-        .sound-status {
-            background: #e8f5e9;
-            color: #2e7d32;
-            border-radius: 10px;
-            padding: 8px 12px;
-            font-size: 0.9rem;
-            margin: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        
-        .sound-status.error {
-            background: #ffebee;
-            color: #c62828;
-        }
-        
-        .pulse {
-            animation: pulse 0.3s ease;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
         .back-home-btn {
             position: absolute;
             top: 15px;
@@ -396,49 +326,6 @@
         
         .back-home-btn:active {
             transform: scale(0.95);
-        }
-        
-        /* 模式选择卡片 */
-        .mode-card {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin: 12px 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 2px solid #e0e0e0;
-        }
-        
-        .mode-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-            border-color: #3498db;
-        }
-        
-        .mode-card h2 {
-            color: #2c3e50;
-            margin-top: 0;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            font-size: 1.4rem;
-        }
-        
-        .mode-card p {
-            color: #7f8c8d;
-            font-size: 0.9rem;
-            margin: 0;
-        }
-        
-        .mode-card.practice {
-            background: linear-gradient(to bottom right, #e3f2fd, #bbdefb);
-        }
-        
-        .mode-card.challenge {
-            background: linear-gradient(to bottom right, #ffebee, #ffcdd2);
         }
         
         /* 挑战模式计时器 */
@@ -511,6 +398,70 @@
             margin: 15px 10px;
         }
         
+        /* 首页简洁模式 */
+        .home-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            padding: 20px;
+        }
+        
+        .game-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 40px;
+            color: #2c3e50;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .mode-btn-container {
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .mode-btn {
+            width: 100%;
+            margin: 20px 0;
+            padding: 25px 0;
+            font-size: 2rem;
+            font-weight: bold;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+            border: none;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .mode-btn i {
+            margin-right: 15px;
+            font-size: 2.2rem;
+        }
+        
+        .practice-btn {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+        }
+        
+        .challenge-btn {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+        
+        .mode-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.25);
+        }
+        
+        .mode-btn:active {
+            transform: translateY(2px);
+        }
+        
         @media (max-width: 500px) {
             .container {
                 height: 100vh;
@@ -519,43 +470,18 @@
                 padding: 10px;
             }
             
-            h1 {
-                font-size: 1.6rem;
+            .game-title {
+                font-size: 2rem;
+                margin-bottom: 30px;
             }
             
-            .question {
-                font-size: 2.8rem;
+            .mode-btn {
+                padding: 22px 0;
+                font-size: 1.8rem;
             }
             
-            .btn {
-                padding: 12px 0;
-                font-size: 0.95rem;
-            }
-            
-            .key {
-                padding: 14px 0;
-                font-size: 1.5rem;
-            }
-            
-            .answer-input {
-                padding: 14px;
-                font-size: 1.5rem;
-            }
-            
-            .mode-card h2 {
-                font-size: 1.2rem;
-            }
-            
-            .difficulty-option {
-                padding: 15px;
-            }
-            
-            .difficulty-option h3 {
-                font-size: 1.1rem;
-            }
-            
-            .result-badge {
-                font-size: 3rem;
+            .mode-btn i {
+                font-size: 2rem;
             }
         }
     </style>
@@ -570,31 +496,18 @@
     </div>
     
     <div class="container">
-        <!-- 首页 -->
+        <!-- 简洁首页 -->
         <div id="home-screen" class="screen active">
-            <div>
-                <h1>95數背數小游戲</h1>
-                <div class="subtitle">提升心算能力 · 訓練快速反應</div>
-                
-                <div class="instructions">
-                    <h3><i class="fas fa-info-circle"></i> 遊戲說明</h3>
-                    <p>快速計算整百數的95數結果，例如：100 → 95，200 → 190</p>
-                    <p>選擇練習模式可以自由練習，挑戰模式則有時間限制</p>
+            <div class="home-container">
+                <div class="game-title">95數背數小游戲</div>
+                <div class="mode-btn-container">
+                    <button class="mode-btn practice-btn" id="practice-mode">
+                        <i class="fas fa-book-open"></i> 練習模式
+                    </button>
+                    <button class="mode-btn challenge-btn" id="challenge-mode">
+                        <i class="fas fa-trophy"></i> 挑戰模式
+                    </button>
                 </div>
-                
-                <div class="mode-card practice" id="practice-mode">
-                    <h2><i class="fas fa-book-open"></i> 練習模式</h2>
-                    <p>無時間壓力，自由練習心算能力</p>
-                </div>
-                
-                <div class="mode-card challenge" id="challenge-mode">
-                    <h2><i class="fas fa-trophy"></i> 挑戰模式</h2>
-                    <p>限時挑戰，測試你的反應速度</p>
-                </div>
-            </div>
-            
-            <div class="wx-tip">
-                <i class="fas fa-mobile-alt"></i> 提示：此應用由PID制作（Alexkong)
             </div>
         </div>
 
@@ -614,7 +527,7 @@
                 </div>
                 
                 <div class="difficulty-option" data-range="2">
-                    <h极><i class="fas fa-layer-group"></i> 2100至3900內容</h3>
+                    <h3><i class="fas fa-layer-group"></i> 2100至3900內容</h3>
                     <p>中等範圍練習（2100-3900）</p>
                 </div>
                 
@@ -637,7 +550,7 @@
 
         <!-- 挑战模式选择页 -->
         <div id="challenge-screen" class="screen">
-            <div class="back-home-btn" id="back-home-challenge">
+            <div class极="back-home-btn" id="back-home-challenge">
                 <i class="fas fa-arrow-left"></i>
             </div>
 
@@ -664,7 +577,7 @@
 
         <!-- 游戏页 -->
         <div id="game-screen" class="screen">
-            <div class="back-home-btn" id极="back-home-game">
+            <div class="back-home-btn" id="back-home-game">
                 <i class="fas fa-home"></i>
             </div>
 
@@ -996,7 +909,7 @@
         // 挑战模式选择
         document.querySelectorAll('#challenge-screen .difficulty-option').forEach(option => {
             option.addEventListener('click', function() {
-                gameState.mode = 'challenge';
+                gameState.mode = '极hallenge';
                 gameState.difficulty = this.dataset.difficulty;
                 
                 // 根据难度设置题目数量和时间限制
@@ -1128,7 +1041,7 @@
             gameState.questions = generateQuestions();
             gameState.userAnswers = [];
             gameState.correctAnswers = [];
-            gameState.incorrect极st = [];
+            gameState.incorrectList = [];
             gameState.elapsedTime = 0;
             gameState.challengeTimes = [];
             
@@ -1379,11 +1292,6 @@
 
         // 分享按钮
         document.getElementById('share-btn').addEventListener('click', shareToWechat);
-
-        // 微信环境特殊处理
-        if (navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1) {
-            document.querySelector('.wx-tip').style.display = 'flex';
-        }
     </script>
 </body>
 </html>
