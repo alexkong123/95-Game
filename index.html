@@ -1409,6 +1409,10 @@
         // 分享按钮
         document.getElementById('share-btn').addEventListener('click', shareToWechat);
 
+         // 分享模态框事件
+        copyBtn.addEventListener('click', copyShareText);
+        closeModal.addEventListener('click', hideModal);
+
         // 微信环境特殊处理
         if (navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1) {
             document.querySelector('.wx-tip').style.display = 'flex';
@@ -1416,14 +1420,4 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
 
