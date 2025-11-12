@@ -6,6 +6,8 @@
     <title>95數背數小游戲 - 練習模式優化版</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
         * {
             box-sizing: border-box;
             margin: 0;
@@ -417,7 +419,128 @@
         .back-home-btn:active {
             transform: scale(0.95);
         }
-        
+
+         /* 分享模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .share-intro {
+            margin-bottom: 20px;
+        }
+
+        .share-text {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-size: 0.9rem;
+            word-break: break-all;
+            text-align: left;
+            border: 1px solid #e0e0e0;
+            min-height: 80px;
+        }
+
+        .copy-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .wx-instructions {
+            margin-top: 20px;
+            text-align: left;
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+        }
+
+        .wx-instructions h4 {
+            margin-top: 0;
+            color: #0d47a1;
+        }
+
+        .wx-instructions ol {
+            padding-left: 20px;
+        }
+
+        .wx-instructions li {
+            margin-bottom: 8px;
+        }
+
+        .close-btn {
+            background: #7f8c8d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-top: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s;
+        }
+
+        .close-btn:hover {
+            background: #95a5a6;
+        }
+
+        .share-info {
+            background: #e8f5e9;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: left;
+        }
+
+        .score-display, .accuracy-display {
+            margin: 8px 0;
+            font-weight: bold;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 480px) {
+            .modal-content {
+                width: 95%;
+                padding: 15px;
+        }
+            
         /* 模式选择卡片 */
         .mode-card {
             background: white;
@@ -584,9 +707,128 @@
         @supports (-webkit-overflow-scrolling: touch) {
             body {
                 overscroll-behavior: contain;
+
+        /* 分享模态框樣式 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .share-intro {
+            margin-bottom: 20px;
+        }
+
+        .share-text {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-size: 0.9rem;
+            word-break: break-all;
+            text-align: left;
+            border: 1px solid #e0e0e0;
+            min-height: 80px;
+        }
+
+        .copy-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .wx-instructions {
+            margin-top: 20px;
+            text-align: left;
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+        }
+
+        .wx-instructions h4 {
+            margin-top: 0;
+            color: #0d47a1;
+        }
+
+        .wx-instructions ol {
+            padding-left: 20px;
+        }
+
+        .wx-instructions li {
+            margin-bottom: 8px;
+        }
+
+        .close-btn {
+            background: #7f8c8d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-top: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s;
+        }
+
+        .close-btn:hover {
+            background: #95a5a6;
+        }
+
+        .share-info {
+            background: #e8f5e9;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: left;
+        }
+
+        .score-display, .accuracy-display {
+            margin: 8px 0;
+            font-weight: bold;
+        }
+
+        /* 響應式調整 */
+        @media (max-width: 480px) {
+            .modal-content {
+                width: 95%;
+                padding: 15px;
             }
         }
-        
     </style>
 </head>
 <body>
@@ -599,7 +841,7 @@
     </div>
     
     <div class="container">
-        <!-- 首页 -->
+        <!-- 首頁 -->
         <div id="home-screen" class="screen active">
             <div>
                 <h1>95數背數小游戲</h1>
@@ -631,7 +873,7 @@
             </div>
         </div>
 
-        <!-- 练习模式选择页 -->
+        <!-- 練習模式選擇頁 -->
         <div id="practice-screen" class="screen">
             <div class="back-home-btn" id="back-home-practice">
                 <i class="fas fa-arrow-left"></i>
@@ -663,7 +905,7 @@
             </div>
         </div>
 
-        <!-- 挑战模式选择页 -->
+        <!-- 挑戰模式選擇頁 -->
         <div id="challenge-screen" class="screen">
             <div class="back-home-btn" id="back-home-challenge">
                 <i class="fas fa-arrow-left"></i>
@@ -690,7 +932,7 @@
             </div>
         </div>
 
-        <!-- 游戏页 -->
+        <!-- 遊戲頁 -->
         <div id="game-screen" class="screen">
             <div class="back-home-btn" id="back-home-game">
                 <i class="fas fa-home"></i>
@@ -744,7 +986,7 @@
             </div>
         </div>
 
-        <!-- 结果页 -->
+        <!-- 結果頁 -->
         <div id="result-screen" class="screen">
             <div class="back-home-btn" id="back-home-result">
                 <i class="fas fa-home"></i>
@@ -793,47 +1035,55 @@
         </div>
     </div>
 
-     <!-- 分享模态框 -->
+    <!-- 分享模態框 -->
     <div class="modal" id="share-modal">
         <div class="modal-content">
             <h3><i class="fab fa-weixin"></i> 分享到微信</h3>
-            <p>请使用微信右上角的分享功能</p>
             
-            <div class="share-instructions">
-                <ul>
-                    <li>
-                        <i class="fas fa-1"></i> 点击微信右上角的 <strong>"..."</strong> 按钮
-                    </li>
-                    <li>
-                        <i class="fas fa-2"></i> 在弹出菜单中选择 <strong>"分享到朋友圈"</strong> 或 <strong>"发送给朋友"</strong>
-                    </li>
-                    <li>
-                        <i class="fas fa-3"></i> 选择您要分享的好友或群聊
-                    </li>
-                </ul>
+            <div class="share-intro">
+                <p>挑战95数背数游戏，测试你的心算能力！</p>
             </div>
             
-            <p>或者复制以下分享信息：</p>
-            <div style="background: #f5f5f5; padding: 15px; border-radius: 8px; margin: 15px 0;">
-                <p id="share-text" style="font-size: 0.9rem; word-break: break-all;"></p>
+            <div class="share-info">
+                <p>我的成绩：</p>
+                <div class="score-display">
+                    得分：<span id="share-score">0</span> / <span id="share-total">10</span>
+                </div>
+                <div class="accuracy-display">
+                    正确率：<span id="share-accuracy">0</span>%
+                </div>
             </div>
             
-            <button class="btn" id="copy-btn" style="background: #3498db;">
-                <i class="fas fa-copy"></i> 复制分享内容
-            </button>
-            <button class="btn" id="close-modal" style="background: #7f8c8d;">
+            <div class="share-text-container">
+                <p>分享内容：</p>
+                <div class="share-text" id="share-text"></div>
+                <button class="copy-btn" id="copy-btn">
+                    <i class="fas fa-copy"></i> 复制分享内容
+                </button>
+            </div>
+            
+            <div class="wx-instructions" id="wx-instructions">
+                <h4><i class="fas fa-share-alt"></i> 微信分享步骤</h4>
+                <ol>
+                    <li>点击微信右上角的 <strong>"..."</strong> 按钮</li>
+                    <li>选择 <strong>"分享到朋友圈"</strong> 或 <strong>"发送给朋友"</strong></li>
+                    <li>选择要分享的好友或群聊</li>
+                </ol>
+            </div>
+            
+            <button class="close-btn" id="close-modal">
                 <i class="fas fa-times"></i> 关闭
             </button>
         </div>
     </div>
     
-    <!-- 背景音乐播放器 -->
+    <!-- 背景音樂播放器 -->
     <audio id="bg-music" loop>
         <source src="https://github.com/alexkong123/bg-music-repo/raw/refs/heads/main/ElevateMusica-%20%5BCopyright%20Safe%20Background%20Music%5D.mp3" type="audio/mpeg">
     </audio>
 
     <script>
-        // 背景音乐系统
+        // 背景音樂系統
         let bgmEnabled = true;
         const bgmToggle = document.getElementById('bgm-toggle');
         const bgmIcon = document.getElementById('bgm-icon');
@@ -863,7 +1113,7 @@
             }
         });
 
-        // 音效系统
+        // 音效系統
         let soundEnabled = true;
         const soundToggle = document.getElementById('sound-toggle');
         const soundIcon = document.getElementById('sound-icon');
@@ -951,7 +1201,7 @@
         
         setTimeout(initSoundSystem, 500);
         
-        // 游戏逻辑
+        // 遊戲邏輯
         document.addEventListener('touchmove', function(event) {
             if (event.scale !== 1) {
                 event.preventDefault();
@@ -983,10 +1233,10 @@
             elapsedTime: 0,
             challengeTimeLeft: 0,
             usedNumbers: new Set(),
-            challengeTimes: [] // 记录每题的答题时间
+            challengeTimes: [] // 記錄每題的答題時間
         };
 
-        // 练习范围定义
+        // 練習範圍定義
         const practiceRanges = {
             1: { min: 100, max: 1900, name: "100至1900內容" },
             2: { min: 2100, max: 3900, name: "2100至3900內容" },
@@ -1008,7 +1258,7 @@
             screen.classList.add('active');
         }
 
-        // 返回首页功能
+        // 返回首頁功能
         function goToHomeScreen() {
             clearInterval(gameState.timerInterval);
             clearInterval(gameState.challengeTimerInterval);
@@ -1016,7 +1266,7 @@
             showScreen(screens.home);
         }
         
-        // 返回练习选择页
+        // 返回練習選擇頁
         function goToPracticeScreen() {
             clearInterval(gameState.timerInterval);
             clearInterval(gameState.challengeTimerInterval);
@@ -1024,7 +1274,7 @@
             showScreen(screens.practice);
         }
         
-        // 返回挑战选择页
+        // 返回挑戰選擇頁
         function goToChallengeScreen() {
             clearInterval(gameState.timerInterval);
             clearInterval(gameState.challengeTimerInterval);
@@ -1032,13 +1282,13 @@
             showScreen(screens.challenge);
         }
         
-        // 绑定返回按钮事件
+        // 綁定返回按鈕事件
         document.getElementById('back-home-game').addEventListener('click', goToHomeScreen);
         document.getElementById('back-home-result').addEventListener('click', goToHomeScreen);
         document.getElementById('back-home-practice').addEventListener('click', goToHomeScreen);
         document.getElementById('back-home-challenge').addEventListener('click', goToHomeScreen);
 
-        // 主界面模式选择
+        // 主界面模式選擇
         document.getElementById('practice-mode').addEventListener('click', function() {
             playSound('button');
             showScreen(screens.practice);
@@ -1049,7 +1299,7 @@
             showScreen(screens.challenge);
         });
 
-        // 练习模式选择
+        // 練習模式選擇
         document.querySelectorAll('#practice-screen .difficulty-option').forEach(option => {
             option.addEventListener('click', function() {
                 gameState.mode = 'practice';
@@ -1058,13 +1308,13 @@
             });
         });
 
-        // 挑战模式选择
+        // 挑戰模式選擇
         document.querySelectorAll('#challenge-screen .difficulty-option').forEach(option => {
             option.addEventListener('click', function() {
                 gameState.mode = 'challenge';
                 gameState.difficulty = this.dataset.difficulty;
                 
-                // 根据难度设置题目数量和时间限制
+                // 根據難度設置題目数量和時間限制
                 switch(gameState.difficulty) {
                     case 'basic':
                         gameState.totalQuestions = 30;
@@ -1084,36 +1334,36 @@
             });
         });
 
-        // 生成指定范围内的不重复整百数题目
+        // 生成指定範圍內的不重複整百數題目
         function generateQuestions() {
             const questions = [];
             let allNumbers = [];
             
             if (gameState.mode === 'practice') {
-                // 练习模式：使用指定的数值范围
+                // 練習模式：使用指定的數值範圍
                 const range = practiceRanges[gameState.practiceRange];
-                // 生成范围内的所有整百数
+                // 生成範圍內的所有整百數
                 for (let num = range.min; num <= range.max; num += 100) {
                     allNumbers.push(num);
                 }
-                gameState.totalQuestions = 10; // 练习模式固定10题
+                gameState.totalQuestions = 10; // 練習模式固定10題
             } else {
-                // 挑战模式：使用默认范围 (100-9900)
+                // 挑戰模式：使用預設範圍 (100-9900)
                 for (let num = 100; num <= 9900; num += 100) {
                     allNumbers.push(num);
                 }
             }
             
-            // 重置已用数字集
+            // 重置已用數字集
             gameState.usedNumbers.clear();
             
-            // 洗牌算法打乱数组
+            // 洗牌算法打亂數組
             for (let i = allNumbers.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [allNumbers[i], allNumbers[j]] = [allNumbers[j], allNumbers[i]];
             }
             
-            // 取前totalQuestions个不重复的数字
+            // 取前totalQuestions個不重複的數字
             for (let i = 0; i < gameState.totalQuestions; i++) {
                 const num = allNumbers[i];
                 questions.push(num);
@@ -1123,12 +1373,12 @@
             return questions;
         }
 
-        // 计算95折答案
+        // 計算95折答案
         function calculate95Percent(number) {
             return Math.floor(number * 0.95);
         }
 
-        // 开始计时器
+        // 開始計時器
         function startTimer() {
             gameState.startTime = new Date();
             gameState.timerInterval = setInterval(() => {
@@ -1138,12 +1388,12 @@
             }, 1000);
         }
         
-        // 挑战模式计时器
+        // 挑戰模式計時器
         function startChallengeTimer() {
             document.getElementById('challenge-timer-container').style.display = 'block';
             document.getElementById('challenge-timer').textContent = gameState.challengeTimeLeft;
             
-            // 记录当前题目的开始时间
+            // 記錄當前題目的開始時間
             const questionStartTime = new Date();
             
             gameState.challengeTimerInterval = setInterval(() => {
@@ -1153,14 +1403,14 @@
                 if (gameState.challengeTimeLeft <= 0) {
                     clearInterval(gameState.challengeTimerInterval);
                     
-                    // 记录本题用时
+                    // 記錄本題用時
                     const questionTime = Math.floor((new Date() - questionStartTime) / 1000);
                     gameState.challengeTimes.push(questionTime);
                     
-                    // 自动提交当前答案
+                    // 自動提交當前答案
                     const userAnswer = document.getElementById('answer-input').value;
                     if (!userAnswer) {
-                        // 如果没有输入，视为错误
+                        // 如果沒有輸入，視為錯誤
                         gameState.userAnswers.push(null);
                         gameState.correctAnswers.push(calculate95Percent(gameState.questions[gameState.currentQuestion - 1]));
                         gameState.incorrectList.push({
@@ -1170,20 +1420,20 @@
                         });
                     }
                     
-                    // 进入下一题
+                    // 進入下一題
                     nextQuestion();
                 }
             }, 1000);
         }
 
-        // 更新计时器显示
+        // 更新計時器顯示
         function updateTimerDisplay() {
             const minutes = Math.floor(gameState.elapsedTime / 60).toString().padStart(2, '0');
             const seconds = (gameState.elapsedTime % 60).toString().padStart(2, '0');
             document.getElementById('timer').textContent = `${minutes}:${seconds}`;
         }
 
-        // 开始新游戏
+        // 開始新遊戲
         function startGame() {
             clearInterval(gameState.timerInterval);
             clearInterval(gameState.challengeTimerInterval);
@@ -1204,25 +1454,25 @@
             document.getElementById('progress-fill').style.width = '0%';
             document.getElementById('next-btn').disabled = true;
             
-            // 设置游戏标题
+            // 設置遊戲標題
             if (gameState.mode === 'challenge') {
                 document.getElementById('game-title').innerHTML = `<i class="fas fa-trophy"></i> 挑戰模式 - ${getDifficultyName()}`;
             } else {
                 document.getElementById('game-title').textContent = "練習模式";
-        }
+            }
             
             showScreen(screens.game);
             startTimer();
             updateProgressBar();
             playSound('start');
             
-            // 如果是挑战模式，启动倒计时
+            // 如果是挑戰模式，啟動倒計時
             if (gameState.mode === 'challenge') {
                 startChallengeTimer();
             }
         }
         
-        // 获取难度名称
+        // 獲取難度名稱
         function getDifficultyName() {
             switch(gameState.difficulty) {
                 case 'basic': return '基礎';
@@ -1232,19 +1482,19 @@
             }
         }
 
-        // 更新进度条
+        // 更新進度條
         function updateProgressBar() {
             const progress = ((gameState.currentQuestion - 1) / gameState.questions.length) * 100;
             document.getElementById('progress-fill').style.width = `${progress}%`;
         }
 
-        // 下一题（直接提交答案）
+        // 下一題（直接提交答案）
         function nextQuestion() {
             clearInterval(gameState.challengeTimerInterval);
             
             const userAnswer = document.getElementById('answer-input').value;
             
-            // 记录本题用时（挑战模式）
+            // 記錄本題用時（挑戰模式）
             if (gameState.mode === 'challenge') {
                 const questionStartTime = gameState.startTime + (gameState.elapsedTime * 1000);
                 const questionTime = Math.floor((new Date() - questionStartTime) / 1000);
@@ -1283,7 +1533,7 @@
                 }
             }
             
-            // 进入下一题
+            // 進入下一題
             gameState.currentQuestion++;
             
             if (gameState.currentQuestion > gameState.questions.length) {
@@ -1299,7 +1549,7 @@
             updateProgressBar();
             document.getElementById('next-btn').disabled = true;
             
-            // 如果是挑战模式，重置倒计时
+            // 如果是挑戰模式，重置倒計時
             if (gameState.mode === 'challenge') {
                 switch(gameState.difficulty) {
                     case 'basic': gameState.challengeTimeLeft = 10; break;
@@ -1310,7 +1560,7 @@
             }
         }
 
-        // 结束游戏
+        // 結束遊戲
         function endGame() {
             clearInterval(gameState.timerInterval);
             clearInterval(gameState.challengeTimerInterval);
@@ -1318,7 +1568,7 @@
             playSound('end');
         }
 
-        // 显示结果
+        // 顯示結果
         function showResults() {
             const totalQuestions = gameState.questions.length;
             const accuracy = Math.round((gameState.score / totalQuestions) * 100);
@@ -1331,7 +1581,7 @@
             const seconds = (gameState.elapsedTime % 60).toString().padStart(2, '0');
             document.getElementById('total-time').textContent = `${minutes}:${seconds}`;
             
-            // 更新结果徽章
+            // 更新結果徽章
             const badge = document.getElementById('result-badge');
             if (accuracy >= 90) {
                 badge.innerHTML = '<i class="fas fa-crown" style="color: #FFD700;"></i>';
@@ -1347,7 +1597,7 @@
                 badge.title = "多加練習！";
             }
             
-            // 挑战模式显示额外信息
+            // 挑戰模式顯示額外信息
             const challengeResult = document.getElementById('challenge-result');
             if (gameState.mode === 'challenge') {
                 challengeResult.style.display = 'block';
@@ -1367,9 +1617,9 @@
                     const div = document.createElement('div');
                     div.className = 'result-item incorrect';
                     div.innerHTML = `
-                        <div><strong>题目:</strong> ${item.question}</div>
+                        <div><strong>題目:</strong> ${item.question}</div>
                         <div><strong>您的答案:</strong> ${item.userAnswer || '未作答'}</div>
-                        <div><strong>正确答案:</strong> <span style="color:#e74c3c;">${item.correctAnswer}</span></div>
+                        <div><strong>正確答案:</strong> <span style="color:#e74c3c;">${item.correctAnswer}</span></div>
                     `;
                     incorrectContainer.appendChild(div);
                 });
@@ -1378,19 +1628,90 @@
             showScreen(screens.result);
         }
 
-        // 分享功能
-        function shareToWechat() {
-            playSound('button');
-            alert('请使用微信右上角的分享功能分享此页面！');
+        // 生成分享文案
+        function generateShareText() {
+            const modeText = gameState.mode === 'challenge' 
+                ? `【挑戰模式·${getDifficultyName()}】` 
+                : '【練習模式】';
+            
+            const accuracy = Math.round((gameState.score / gameState.questions.length) * 100);
+            const timeMinutes = Math.floor(gameState.elapsedTime / 60);
+            const timeSeconds = gameState.elapsedTime % 60;
+            
+            return `我在95數背數遊戲中${modeText}獲得${gameState.score}/${gameState.questions.length}分！
+正確率：${accuracy}%
+用時：${timeMinutes}分${timeSeconds}秒
+
+快來挑戰你的心算能力！`;
         }
 
-        // 输入框事件监听
+        // 檢測是否在微信環境
+        function isWechat() {
+            return navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1;
+        }
+
+        // 分享到微信
+        function shareToWechat() {
+            playSound('button');
+            
+            // 填充分享信息
+            document.getElementById('share-score').textContent = gameState.score;
+            document.getElementById('share-total').textContent = gameState.questions.length;
+            
+            const accuracy = Math.round((gameState.score / gameState.questions.length) * 100);
+            document.getElementById('share-accuracy').textContent = accuracy;
+            
+            const shareText = generateShareText();
+            document.getElementById('share-text').textContent = shareText;
+            
+            // 檢測微信環境
+            if (isWechat()) {
+                document.getElementById('wx-instructions').style.display = 'block';
+            } else {
+                document.getElementById('wx-instructions').style.display = 'none';
+            }
+            
+            // 顯示分享模態框
+            document.getElementById('share-modal').style.display = 'flex';
+        }
+
+        // 複製分享內容
+        function copyShareText() {
+            const shareText = document.getElementById('share-text').textContent;
+            navigator.clipboard.writeText(shareText).then(() => {
+                playSound('correct');
+                alert('分享內容已複製到剪貼板！');
+            }).catch(err => {
+                console.error('複製失敗:', err);
+                alert('複製失敗，請手動複製分享內容');
+            });
+        }
+
+        // 關閉模態框
+        document.getElementById('close-modal').addEventListener('click', function() {
+            document.getElementById('share-modal').style.display = 'none';
+        });
+
+        // 綁定分享按鈕
+        document.getElementById('share-btn').addEventListener('click', shareToWechat);
+        
+        // 綁定複製按鈕
+        document.getElementById('copy-btn').addEventListener('click', copyShareText);
+
+        // 微信環境特殊處理
+        if (isWechat()) {
+            document.querySelector('.wx-tip').style.display = 'flex';
+        } else {
+            document.querySelector('.wx-tip').style.display = 'none';
+        }
+
+        // 輸入框事件監聽
         const answerInput = document.getElementById('answer-input');
         answerInput.addEventListener('input', function() {
             document.getElementById('next-btn').disabled = this.value === '';
         });
 
-        // 数字键盘处理
+        // 數字鍵盤處理
         document.querySelectorAll('.key:not(#backspace):not(#clear)').forEach(key => {
             key.addEventListener('click', () => {
                 playSound('key');
@@ -1411,10 +1732,10 @@
             document.getElementById('next-btn').disabled = true;
         });
 
-        // 下一题按钮
+        // 下一題按鈕
         document.getElementById('next-btn').addEventListener('click', nextQuestion);
 
-        // 键盘事件
+        // 鍵盤事件
         document.addEventListener('keydown', (e) => {
             if (e.key >= '0' && e.key <= '9') {
                 playSound('key');
@@ -1430,7 +1751,7 @@
             }
         });
 
-        // 重新开始
+        // 重新開始
         document.getElementById('restart-btn').addEventListener('click', () => {
             playSound('button');
             if (gameState.mode === 'practice') {
@@ -1440,20 +1761,8 @@
             }
         });
 
-        // 分享按钮
+        // 分享按鈕
         document.getElementById('share-btn').addEventListener('click', shareToWechat);
-
-         // 分享模态框事件
-        copyBtn.addEventListener('click', copyShareText);
-        closeModal.addEventListener('click', hideModal);
-
-        // 微信环境特殊处理
-        if (navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1) {
-            document.querySelector('.wx-tip').style.display = 'flex';
-        }
     </script>
 </body>
 </html>
-
-
-
