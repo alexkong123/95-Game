@@ -139,21 +139,23 @@
         .question-container {
             background: linear-gradient(135deg, #f5f7fa, #e4e7f0);
             border-radius: 15px;
-            padding: 15px;
-            margin: 15px 0;
+            padding: 15px; /* 从20px减少到15px */
+            margin: 15px 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100px;
         }
         
         .question {
-            font-size: 3.5rem;
+            font-size: 2.8rem; /* 从3.2rem减少到2.8rem */
             font-weight: bold;
-            margin: 10px 0;
+            margin: 0;
             color: #2c3e50;
+            text-align: center;
             letter-spacing: 1px;
-            background: linear-gradient(45deg, #3498db, #9b59b6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+            font-family: 'Arial', sans-serif;
         }
         
         .answer-input {
@@ -535,9 +537,14 @@
             h1 {
                 font-size: 1.8rem;
             }
+
+            .question-container {
+                padding: 12px;
+                min-height: 85px;
+            }
             
             .question {
-                font-size: 3rem;
+                font-size: 2.4rem;
             }
             
             .btn {
@@ -1401,6 +1408,7 @@
     </script>
 </body>
 </html>
+
 
 
 
