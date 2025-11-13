@@ -822,6 +822,20 @@
             font-weight: bold;
         }
 
+        /* 针对iOS设备 */
+        @media (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
+            body {
+                overflow: hidden;
+            }
+        }
+
+        /* 针对其他设备 */
+        @media not all and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
+            body {
+                overflow: auto;
+            }
+        }
+
         /* 響應式調整 */
         @media (max-width: 480px) {
             .modal-content {
@@ -1761,21 +1775,10 @@
             }
         });
 
-           // 检测是否为iOS设备
-    function isIOS() {
-        return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-    }
-
-    // 设置body的overflow属性
-    if (isIOS()) {
-        document.body.style.overflow = 'hidden';
-    } else {
-        document.body.style.overflow = 'auto';
-    }
-
         // 分享按鈕
         document.getElementById('share-btn').addEventListener('click', shareToWechat);
     </script>
 </body>
 </html>
+
 
