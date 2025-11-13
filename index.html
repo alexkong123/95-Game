@@ -63,7 +63,7 @@
         .container {
             width: 95%;
             max-width: 500px;
-            height: 95vh;
+            min-height: 95vh;
             max-height: 800px;
             background: rgba(255, 255, 255, 0.92);
             border-radius: 20px;
@@ -1212,12 +1212,6 @@
         setTimeout(initSoundSystem, 500);
         
         // 遊戲邏輯
-        document.addEventListener('touchmove', function(event) {
-            if (event.scale !== 1) {
-                event.preventDefault();
-            }
-        }, { passive: false });
-        
         document.addEventListener('gesturestart', function(e) {
             e.preventDefault();
         });
@@ -1789,6 +1783,7 @@
     </script>
 </body>
 </html>
+
 
 
 
