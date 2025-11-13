@@ -1212,14 +1212,6 @@
         setTimeout(initSoundSystem, 500);
         
         // 遊戲邏輯
-        document.addEventListener('gesturestart', function(e) {
-            e.preventDefault();
-        });
-        
-        document.addEventListener('dblclick', function(e) {
-            e.preventDefault();
-        });
-
         const gameState = {
             mode: null, // 'practice' or 'challenge'
             difficulty: null, // 'basic', 'advanced', 'expert'
@@ -1778,11 +1770,11 @@
             document.body.style.overflow = 'hidden';
         } else {
             document.body.style.overflow = 'auto';
-    }
-        
+        }   
     </script>
 </body>
 </html>
+
 
 
 
