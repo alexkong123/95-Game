@@ -416,7 +416,7 @@
             transform: scale(0.95);
         }
 
-         /* 分享模态框样式 */
+     /* 分享模态框样式 */
         .modal {
             display: none;
             position: fixed;
@@ -440,40 +440,69 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
-        .share-intro {
-            margin-bottom: 20px;
+        .share-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 20px 0;
         }
 
-        .share-text {
-            background: #f5f5f5;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 15px 0;
-            font-size: 0.9rem;
-            word-break: break-all;
-            text-align: left;
-            border: 1px solid #e0e0e0;
-            min-height: 80px;
+        .share-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .share-btn i {
+            font-size: 1.2rem;
+        }
+
+        .screenshot-btn {
+            background: linear-gradient(45deg, #4A90E2, #2E3192);
+            color: white;
         }
 
         .copy-btn {
-            background: #3498db;
+            background: linear-gradient(45deg, #50E3C2, #1BAAB3);
             color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 50px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            margin-top: 10px;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            transition: all 0.3s;
         }
 
-        .copy-btn:hover {
-            background: #2980b9;
+        .wx-share-btn {
+            background: linear-gradient(45deg, #07C160, #059C4A);
+            color: white;
+        }
+
+        .share-btn:hover {
             transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .screenshot-preview {
+            margin: 15px 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            display: none;
+        }
+
+        .screenshot-preview img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .share-intro {
+            margin-bottom: 20px;
+            color: #555;
+            font-size: 0.95rem;
         }
 
         .wx-instructions {
@@ -506,7 +535,7 @@
             border-radius: 50px;
             font-size: 0.9rem;
             cursor: pointer;
-            margin-top: 20px;
+            margin-top: 10px;
             display: inline-flex;
             align-items: center;
             gap: 5px;
@@ -514,7 +543,21 @@
         }
 
         .close-btn:hover {
-            background: #95a5a6;
+            background: #95a5a6;        }
+        }
+
+        /* 截图容器样式 */
+        .screenshot-container {
+            position: absolute;
+            left: -1000px;
+            top: 0;
+            width: 400px;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            z-index: -999;
+            visibility: hidden;
         }
 
         .share-info {
@@ -1045,31 +1088,31 @@
         </div>
     </div>
 
-    <!-- 分享模態框 -->
+    <!-- 分享模态框 -->
     <div class="modal" id="share-modal">
         <div class="modal-content">
             <h3><i class="fab fa-weixin"></i> 分享到微信</h3>
             
             <div class="share-intro">
-                <p>挑战95数背数游戏，测试你的心算能力！</p>
+                选择分享方式，将您的成绩分享给朋友
             </div>
             
-            <div class="share-info">
-                <p>我的成绩：</p>
-                <div class="score-display">
-                    得分：<span id="share-score">0</span> / <span id="share-total">10</span>
-                </div>
-                <div class="accuracy-display">
-                    正确率：<span id="share-accuracy">0</span>%
-                </div>
-            </div>
-            
-            <div class="share-text-container">
-                <p>分享内容：</p>
-                <div class="share-text" id="share-text"></div>
-                <button class="copy-btn" id="copy-btn">
-                    <i class="fas fa-copy"></i> 复制分享内容
+            <div class="share-options">
+                <button class="share-btn screenshot-btn" id="screenshot-btn">
+                    <i class="fas fa-camera"></i> 生成成绩截图
                 </button>
+                
+                <button class="share-btn copy-btn" id="copy-text-btn">
+                    <i class="fas fa-copy"></i> 复制分享文案
+                </button>
+                
+                <button class="share-btn wx-share-btn" id="wx-share-btn">
+                    <i class="fab fa-weixin"></i> 直接分享到微信
+                </button>
+            </div>
+            
+            <div class="screenshot-preview" id="screenshot-preview">
+                <img id="screenshot-image" src="" alt="成绩截图">
             </div>
             
             <div class="wx-instructions" id="wx-instructions">
@@ -1084,6 +1127,40 @@
             <button class="close-btn" id="close-modal">
                 <i class="fas fa-times"></i> 关闭
             </button>
+        </div>
+    </div>
+    
+    <!-- 截图容器 - 用于生成成绩图片 -->
+    <div class="screenshot-container" id="screenshot-container">
+        <h2 style="text-align: center; color: #2c3e50; margin-bottom: 20px;">95数背数挑战成绩</h2>
+        <div style="text-align: center; margin-bottom: 15px;">
+            <div style="font-size: 1.8rem; font-weight: bold; color: #e74c3c;">
+                <span id="screenshot-score">0</span>/<span id="screenshot-total">10</span>
+            </div>
+            <div style="font-size: 1.2rem; color: #7f8c8d;">得分</div>
+        </div>
+        
+        <div style="text-align: center; margin-bottom: 15px;">
+            <div style="font-size: 1.5rem; font-weight: bold; color: #3498db;">
+                <span id="screenshot-accuracy">0</span>%
+            </div>
+            <div style="font-size: 1.2rem; color: #7f8c8d;">正确率</div>
+        </div>
+        
+        <div style="text-align: center; margin-bottom: 20px;">
+            <div style="font-size: 1.3rem; font-weight: bold; color: #2c3e50;">
+                <span id="screenshot-time">00:00</span>
+            </div>
+            <div style="font-size: 1.2rem; color: #7f8c8d;">用时</div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 25px;">
+            <div style="font-size: 1.1rem; color: #7f8c8d; max-width: 300px; margin: 0 auto 15px;">
+                挑战模式: <span id="screenshot-mode">练习模式</span>
+            </div>
+            <div style="font-size: 1rem; color: #95a5a6; margin-top: 20px;">
+                截图生成时间: <span id="screenshot-timestamp"></span>
+            </div>
         </div>
     </div>
     
@@ -1627,21 +1704,21 @@
         // 生成分享文案
         function generateShareText() {
             const modeText = gameState.mode === 'challenge' 
-                ? `【挑戰模式·${getDifficultyName()}】` 
-                : '【練習模式】';
+                ? `【挑战模式·${getDifficultyName()}】` 
+                : '【练习模式】';
             
             const accuracy = Math.round((gameState.score / gameState.questions.length) * 100);
             const timeMinutes = Math.floor(gameState.elapsedTime / 60);
             const timeSeconds = gameState.elapsedTime % 60;
             
-            return `我在95數背數遊戲中${modeText}獲得${gameState.score}/${gameState.questions.length}分！
-正確率：${accuracy}%
-用時：${timeMinutes}分${timeSeconds}秒
+            return `我在95数背数游戏中${modeText}获得${gameState.score}/${gameState.questions.length}分！
+正确率：${accuracy}%
+用时：${timeMinutes}分${timeSeconds}秒
 
-快來挑戰你的心算能力！`;
+快来挑战你的心算能力！`;
         }
 
-        // 檢測是否在微信環境
+        // 检测是否在微信环境
         function isWechat() {
             return navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1;
         }
@@ -1660,47 +1737,164 @@
             const shareText = generateShareText();
             document.getElementById('share-text').textContent = shareText;
             
-            // 檢測微信環境
-            if (isWechat()) {
-                document.getElementById('wx-instructions').style.display = 'block';
-            } else {
-                document.getElementById('wx-instructions').style.display = 'none';
-            }
-            
-            // 顯示分享模態框
+            // 显示分享模态框
             document.getElementById('share-modal').style.display = 'flex';
         }
 
-        // 複製分享內容
+        // 复制分享内容
         function copyShareText() {
-            const shareText = document.getElementById('share-text').textContent;
+            const shareText = generateShareText();
             navigator.clipboard.writeText(shareText).then(() => {
                 playSound('correct');
-                alert('分享內容已複製到剪貼板！');
+                alert('分享内容已复制到剪贴板！');
             }).catch(err => {
-                console.error('複製失敗:', err);
-                alert('複製失敗，請手動複製分享內容');
+                console.error('复制失败:', err);
+                alert('复制失败，请手动复制分享内容');
             });
         }
 
-        // 關閉模態框
+        // 生成成绩截图
+        function createScreenshot() {
+            playSound('camera');
+            
+            // 获取当前时间
+            const now = new Date();
+            const timestamp = `${now.getFullYear()}-${(now.getMonth()+1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')} ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+            
+            // 准备截图容器
+            const container = document.getElementById('screenshot-container');
+            
+            // 更新截图容器内容
+            document.getElementById('screenshot-score').textContent = gameState.score;
+            document.getElementById('screenshot-total').textContent = gameState.questions.length;
+            document.getElementById('screenshot-accuracy').textContent = 
+                Math.round((gameState.score / gameState.questions.length) * 100);
+            
+            const timeMinutes = Math.floor(gameState.elapsedTime / 60);
+            const timeSeconds = gameState.elapsedTime % 60;
+            document.getElementById('screenshot-time').textContent = 
+                `${timeMinutes.toString().padStart(2, '0')}:${timeSeconds.toString().padStart(2, '0')}`;
+            
+            document.getElementById('screenshot-mode').textContent = 
+                gameState.mode === 'challenge' ? `挑战模式·${getDifficultyName()}` : '练习模式';
+            
+            document.getElementById('screenshot-timestamp').textContent = timestamp;
+            
+            // 创建canvas
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // 设置canvas尺寸
+            canvas.width = 400;
+            canvas.height = 400;
+            
+            // 绘制背景
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // 添加背景图片
+            const img = new Image();
+            img.onload = function() {
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                
+                // 将容器内容绘制到canvas
+                const html2canvas = window.html2canvas || html2canvas;
+                html2canvas(container, {
+                    canvas: canvas,
+                    width: 400,
+                    height: 400,
+                    scale: 1,
+                    logging: false,
+                    useCORS: true
+                }).then(function(canvas) {
+                    // 获取图片URL
+                    const imgURL = canvas.toDataURL('image/png');
+                    
+                    // 显示预览
+                    const preview = document.getElementById('screenshot-preview');
+                    const imgElement = document.getElementById('screenshot-image');
+                    imgElement.src = imgURL;
+                    preview.style.display = 'block';
+                    
+                    // 保存图片到相册
+                    if (navigator.userAgent.match(/iphone|android/i)) {
+                        try {
+                            const saveImage = new Image();
+                            saveImage.onload = function() {
+                                ctx.drawImage(saveImage, 0, 0, canvas.width, canvas.height);
+                                const imgUrl = canvas.toDataURL('image/png');
+                                
+                                // 保存到相册
+                                if (navigator.userAgent.match(/iphone/i)) {
+                                    // iOS保存方式
+                                    window.webkitProvisionalLoadImage = function() {
+                                        return true;
+                                    };
+                                }
+                                
+                                const a = document.createElement('a');
+                                a.href = imgUrl;
+                                a.download = `95数背数成绩-${gameState.score}分-${timestamp}.png`;
+                                a.click();
+                            };
+                            saveImage.src = imgURL;
+                        } catch (e) {
+                            console.error('保存图片失败:', e);
+                            alert('截图已生成，请长按保存');
+                        }
+                    } else {
+                        alert('截图已生成，请右键保存图片');
+                    }
+                }).catch(function(err) {
+                    console.error('截图生成失败:', err);
+                    alert('截图生成失败，请重试');
+                });
+            };
+            
+            // 设置背景图片
+            img.src = 'https://github.com/alexkong123/bg-music-repo/raw/refs/heads/main/background_pattern.png';
+        }
+
+        // 直接分享到微信
+        function shareDirectlyToWechat() {
+            if (navigator.share) {
+                try {
+                    const shareData = {
+                        title: '95数背数挑战成绩',
+                        text: generateShareText(),
+                        url: window.location.href
+                    };
+                    
+                    navigator.share(shareData)
+                        .then(() => console.log('分享成功'))
+                        .catch(error => {
+                            console.error('分享失败:', error);
+                            alert('分享失败，请使用微信的分享功能');
+                        });
+                } catch (e) {
+                    console.error('分享出错:', e);
+                    alert('您的浏览器不支持分享功能');
+                }
+            } else {
+                alert('请使用微信的"+"按钮，选择"分享到朋友圈"或"发送给朋友"');
+            }
+        }
+
+        // 绑定事件
+        document.getElementById('share-btn').addEventListener('click', shareToWechat);
+        document.getElementById('copy-text-btn').addEventListener('click', copyShareText);
+        document.getElementById('screenshot-btn').addEventListener('click', createScreenshot);
+        document.getElementById('wx-share-btn').addEventListener('click', shareDirectlyToWechat);
         document.getElementById('close-modal').addEventListener('click', function() {
             document.getElementById('share-modal').style.display = 'none';
         });
 
-        // 綁定分享按鈕
-        document.getElementById('share-btn').addEventListener('click', shareToWechat);
-        
-        // 綁定複製按鈕
-        document.getElementById('copy-btn').addEventListener('click', copyShareText);
-
-        // 微信環境特殊處理
+        // 微信环境特殊处理
         if (isWechat()) {
             document.querySelector('.wx-tip').style.display = 'flex';
         } else {
             document.querySelector('.wx-tip').style.display = 'none';
         }
-
         // 輸入框事件監聽
         const answerInput = document.getElementById('answer-input');
         answerInput.addEventListener('input', function() {
@@ -1774,6 +1968,7 @@
     </script>
 </body>
 </html>
+
 
 
 
