@@ -698,7 +698,165 @@ h1 {
     font-size: 1rem;
 }
 
-/* 响应式调整 */
+/* 錯誤記錄滑動方格樣式 */
+.incorrect-grid-container {
+    margin: 15px 0;
+    position: relative;
+}
+
+.incorrect-grid-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    font-size: 1rem;
+    color: #2c3e50;
+}
+
+.incorrect-grid {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 10px 5px;
+    gap: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: #3498db #f1f1f1;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+}
+
+.incorrect-grid::-webkit-scrollbar {
+    height: 6px;
+}
+
+.incorrect-grid::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.incorrect-grid::-webkit-scrollbar-thumb {
+    background: #3498db;
+    border-radius: 3px;
+}
+
+.incorrect-grid::-webkit-scrollbar-thumb:hover {
+    background: #2980b9;
+}
+
+.incorrect-grid-item {
+    flex: 0 0 auto;
+    width: 180px;
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 2px solid #e74c3c;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: all 0.3s;
+}
+
+.incorrect-grid-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.incorrect-grid-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #e74c3c;
+    margin-bottom: 8px;
+}
+
+.incorrect-grid-answer {
+    font-size: 1.5rem;
+    color: #2c3e50;
+    margin-bottom: 5px;
+}
+
+.incorrect-grid-correct {
+    font-size: 1.2rem;
+    color: #2ecc71;
+    font-weight: 600;
+}
+
+.incorrect-grid-label {
+    font-size: 0.8rem;
+    color: #7f8c8d;
+    margin-top: 5px;
+}
+
+.incorrect-grid-scroll-hint {
+    display: none;
+    font-size: 0.8rem;
+    color: #3498db;
+    margin-top: 10px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.incorrect-grid-scroll-hint i {
+    animation: bounce 1.5s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(5px); }
+}
+
+.incorrect-empty {
+    text-align: center;
+    padding: 30px 20px;
+    background: #e8f5e9;
+    border-radius: 12px;
+    color: #2e7d32;
+    font-size: 1rem;
+    margin: 20px 0;
+}
+
+/* 錯誤記錄導航箭頭 */
+.incorrect-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    background: rgba(52, 152, 219, 0.8);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    z-index: 5;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s;
+}
+
+.incorrect-nav:hover {
+    background: #2980b9;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.incorrect-nav.left {
+    left: -10px;
+}
+
+.incorrect-nav.right {
+    right: -10px;
+}
+
+.incorrect-nav i {
+    font-size: 1rem;
+}
+
+/* 響應式調整 */
 @media (max-width: 480px) {
     .container {
         height: 93vh;
@@ -766,6 +924,36 @@ h1 {
     .nickname-input {
         padding: 12px;
         font-size: 1.1rem;
+    }
+    
+    .incorrect-grid-item {
+        width: 160px;
+        padding: 12px;
+    }
+    
+    .incorrect-grid-number {
+        font-size: 1.8rem;
+    }
+    
+    .incorrect-grid-answer {
+        font-size: 1.3rem;
+    }
+    
+    .incorrect-grid-correct {
+        font-size: 1.1rem;
+    }
+    
+    .incorrect-nav {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .incorrect-nav.left {
+        left: -5px;
+    }
+    
+    .incorrect-nav.right {
+        right: -5px;
     }
 }
 
@@ -1032,9 +1220,34 @@ h1 {
                 <i class="fas fa-stopwatch"></i> 總用時: <span id="total-time">00:00</span>
             </div>
             
-            <div style="margin: 15px 0;">
-                <h3><i class="fas fa-exclamation-triangle"></i> 錯題記錄：</h3>
-                <div id="incorrect-answers" style="max-height: 200px; overflow-y: auto;"></div>
+            <!-- 錯誤記錄滑動方格區域 -->
+            <div class="incorrect-grid-container">
+                <div class="incorrect-grid-title">
+                    <i class="fas fa-exclamation-triangle"></i> 錯題記錄：
+                    <span id="incorrect-count" style="color: #e74c3c; margin-left: 5px;">0</span>題
+                </div>
+                
+                <div class="incorrect-nav left" id="incorrect-nav-left">
+                    <i class="fas fa-chevron-left"></i>
+                </div>
+                
+                <div class="incorrect-grid" id="incorrect-grid">
+                    <!-- 這裡會動態生成錯題方格 -->
+                </div>
+                
+                <div class="incorrect-nav right" id="incorrect-nav-right">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                
+                <div class="incorrect-grid-scroll-hint" id="incorrect-scroll-hint">
+                    <i class="fas fa-arrows-alt-h"></i> 左右滑動查看更多
+                </div>
+            </div>
+            
+            <!-- 當沒有錯題時顯示 -->
+            <div id="incorrect-empty" class="incorrect-empty" style="display: none;">
+                <i class="fas fa-check-circle" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                <p>太棒了！全部答對！🎉</p>
             </div>
         </div>
         
@@ -1578,7 +1791,7 @@ function endGame() {
     playSound('end');
 }
 
-// 顯示結果
+// 顯示結果 - 使用滑動方格顯示錯誤記錄
 function showResults() {
     const totalQuestions = gameState.questions.length;
     const accuracy = Math.round((gameState.score / totalQuestions) * 100);
@@ -1599,6 +1812,9 @@ function showResults() {
     document.getElementById('score').textContent = gameState.score;
     document.getElementById('total').textContent = totalQuestions;
     document.getElementById('accuracy').textContent = accuracy;
+    
+    // 更新錯誤題數
+    document.getElementById('incorrect-count').textContent = gameState.incorrectList.length;
     
     const minutes = Math.floor(gameState.elapsedTime / 60).toString().padStart(2, '0');
     const seconds = (gameState.elapsedTime % 60).toString().padStart(2, '0');
@@ -1630,25 +1846,146 @@ function showResults() {
         challengeResult.style.display = 'none';
     }
     
-    const incorrectContainer = document.getElementById('incorrect-answers');
-    incorrectContainer.innerHTML = '';
+    // 清空並重新生成錯誤記錄方格
+    const incorrectGrid = document.getElementById('incorrect-grid');
+    const incorrectEmpty = document.getElementById('incorrect-empty');
     
+    // 清空現有內容
+    incorrectGrid.innerHTML = '';
+    
+    // 顯示/隱藏錯誤記錄區域
     if (gameState.incorrectList.length === 0) {
-        incorrectContainer.innerHTML = '<div class="result-item" style="text-align:center; background:#e8f5e9; color:#2e7d32;">太棒了！全部答对！🎉</div>';
+        // 沒有錯題，顯示成功訊息
+        incorrectGrid.style.display = 'none';
+        document.getElementById('incorrect-nav-left').style.display = 'none';
+        document.getElementById('incorrect-nav-right').style.display = 'none';
+        document.getElementById('incorrect-scroll-hint').style.display = 'none';
+        incorrectEmpty.style.display = 'block';
     } else {
-        gameState.incorrectList.forEach(item => {
-            const div = document.createElement('div');
-            div.className = 'result-item incorrect';
-            div.innerHTML = `
-                <div><strong>題目:</strong> ${item.question}</div>
-                <div><strong>您的答案:</strong> ${item.userAnswer || '未作答'}</div>
-                <div><strong>正確答案:</strong> <span style="color:#e74c3c;">${item.correctAnswer}</span></div>
+        // 有錯題，生成滑動方格
+        incorrectGrid.style.display = 'flex';
+        incorrectEmpty.style.display = 'none';
+        
+        // 根據錯題數量決定是否顯示導航箭頭和提示
+        if (gameState.incorrectList.length > 3) {
+            document.getElementById('incorrect-nav-left').style.display = 'flex';
+            document.getElementById('incorrect-nav-right').style.display = 'flex';
+            document.getElementById('incorrect-scroll-hint').style.display = 'flex';
+        } else {
+            document.getElementById('incorrect-nav-left').style.display = 'none';
+            document.getElementById('incorrect-nav-right').style.display = 'none';
+            document.getElementById('incorrect-scroll-hint').style.display = 'none';
+        }
+        
+        // 生成錯題方格
+        gameState.incorrectList.forEach((item, index) => {
+            const gridItem = document.createElement('div');
+            gridItem.className = 'incorrect-grid-item';
+            gridItem.innerHTML = `
+                <div class="incorrect-grid-label">第 ${index + 1} 題</div>
+                <div class="incorrect-grid-number">${item.question}</div>
+                <div class="incorrect-grid-label">您的答案</div>
+                <div class="incorrect-grid-answer">${item.userAnswer || '未作答'}</div>
+                <div class="incorrect-grid-label">正確答案</div>
+                <div class="incorrect-grid-correct">${item.correctAnswer}</div>
             `;
-            incorrectContainer.appendChild(div);
+            incorrectGrid.appendChild(gridItem);
         });
+        
+        // 初始化滑動功能
+        initIncorrectGridScroll();
     }
     
     showScreen(screens.result);
+}
+
+// 初始化錯誤記錄滑動功能
+function initIncorrectGridScroll() {
+    const incorrectGrid = document.getElementById('incorrect-grid');
+    const leftNav = document.getElementById('incorrect-nav-left');
+    const rightNav = document.getElementById('incorrect-nav-right');
+    
+    // 計算每個方格的寬度和間距
+    const gridItemWidth = 180; // 與CSS中的寬度一致
+    const gridGap = 10; // 與CSS中的間距一致
+    
+    // 左導航按鈕
+    leftNav.addEventListener('click', () => {
+        playSound('button');
+        incorrectGrid.scrollBy({
+            left: -(gridItemWidth + gridGap),
+            behavior: 'smooth'
+        });
+    });
+    
+    // 右導航按鈕
+    rightNav.addEventListener('click', () => {
+        playSound('button');
+        incorrectGrid.scrollBy({
+            left: gridItemWidth + gridGap,
+            behavior: 'smooth'
+        });
+    });
+    
+    // 觸摸滑動支持
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    incorrectGrid.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    });
+    
+    incorrectGrid.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    });
+    
+    function handleSwipe() {
+        const swipeThreshold = 50; // 滑動閾值
+        const swipeDistance = touchEndX - touchStartX;
+        
+        if (Math.abs(swipeDistance) > swipeThreshold) {
+            if (swipeDistance > 0) {
+                // 向右滑動，向左滾動
+                leftNav.click();
+            } else {
+                // 向左滑動，向右滾動
+                rightNav.click();
+            }
+        }
+    }
+    
+    // 滾動時更新導航按鈕的可見性
+    incorrectGrid.addEventListener('scroll', () => {
+        updateNavButtons();
+    });
+    
+    function updateNavButtons() {
+        const scrollLeft = incorrectGrid.scrollLeft;
+        const scrollWidth = incorrectGrid.scrollWidth;
+        const clientWidth = incorrectGrid.clientWidth;
+        
+        // 更新左箭頭可見性
+        if (scrollLeft <= 10) {
+            leftNav.style.opacity = '0.5';
+            leftNav.style.pointerEvents = 'none';
+        } else {
+            leftNav.style.opacity = '1';
+            leftNav.style.pointerEvents = 'auto';
+        }
+        
+        // 更新右箭頭可見性
+        if (scrollLeft + clientWidth >= scrollWidth - 10) {
+            rightNav.style.opacity = '0.5';
+            rightNav.style.pointerEvents = 'none';
+        } else {
+            rightNav.style.opacity = '1';
+            rightNav.style.pointerEvents = 'auto';
+        }
+    }
+    
+    // 初始化按鈕狀態
+    updateNavButtons();
 }
 
 // 生成分享文案
